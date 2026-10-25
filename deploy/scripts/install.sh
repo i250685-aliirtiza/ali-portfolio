@@ -15,14 +15,15 @@ if [[ -e /etc/nginx/sites-available/ali-portfolio.conf ]]; then echo 'Use docume
 id ali-portfolio >/dev/null 2>&1 || useradd --system --home "$root" --shell /usr/sbin/nologin ali-portfolio
 install -d -m 0755 "$root" "$root/releases"
 install -d -m 0700 -o ali-portfolio -g ali-portfolio /var/lib/ali-portfolio
+install -d -m 0700 -o ali-portfolio -g ali-portfolio /var/cache/ali-portfolio
 [[ ! -e $release ]] || { echo 'Release already exists; inspect before resuming'; exit 1; }
 install -d -m 0755 -o ali-portfolio -g ali-portfolio "$release"
 runuser -u ali-portfolio -- git clone https://github.com/i250685-aliirtiza/ali-portfolio.git "$release"
 runuser -u ali-portfolio -- git -C "$release" checkout --detach "$sha"
 [[ $(git -c safe.directory="$release" -C "$release" rev-parse HEAD) == "$sha" ]] || exit 1
 cd "$release"
-runuser -u ali-portfolio -- env PATH="$PATH" npm ci
-runuser -u ali-portfolio -- env PATH="$PATH" npm run build
+runuser -u ali-portfolio -- env PATH="$PATH" npm_config_cache=/var/cache/ali-portfolio npm ci
+runuser -u ali-portfolio -- env PATH="$PATH" npm_config_cache=/var/cache/ali-portfolio npm run build
 if [[ ! -e /etc/ali-portfolio.env ]]; then install -o root -g root -m 0600 .env.example /etc/ali-portfolio.env; fi
 ln -sfn "$runtime" "$root/runtime"
 backup="/var/backups/ali-portfolio/$(date -u +%Y%m%dT%H%M%SZ)"
