@@ -136,154 +136,159 @@ function Header() {
     </header>
   );
 }
+function ProjectDiagram({ name }: { name: (typeof featured)[number] }) {
+  if (name === "Neural-Network")
+    return (
+      <div className="network-diagram" aria-hidden="true">
+        <div className="diagram-label mono">
+          VALUES FORWARD · GRADIENTS BACKWARD
+        </div>
+        <div className="computation-flow">
+          <span>x</span>
+          <i>→</i>
+          <span>w · x + b</span>
+          <i>→</i>
+          <span>tanh</span>
+          <i>→</i>
+          <span>L</span>
+        </div>
+        <div className="backward-flow mono">← CHAIN RULE / BACKPROPAGATION</div>
+        <div className="arena-pair">
+          <div>
+            <span className="mono">PERSISTENT ARENA</span>
+            <strong>Weights + biases</strong>
+          </div>
+          <div>
+            <span className="mono">TEMPORARY ARENA</span>
+            <strong>Computation graph</strong>
+          </div>
+        </div>
+        <p className="diagram-footnote mono">Neuron → Layer → MLP</p>
+      </div>
+    );
+  if (name === "Blackwood-Hargrove-Editor")
+    return (
+      <div className="editor-diagram" aria-hidden="true">
+        <div className="editor-tabs mono">
+          <span>Document 01</span>
+          <span>Document 02</span>
+        </div>
+        <div className="editor-layout">
+          <div>
+            <span />
+            <span />
+            <span className="marked-line" />
+            <span />
+          </div>
+          <div>
+            <span />
+            <span />
+            <span />
+            <span className="short-line" />
+          </div>
+        </div>
+        <p className="mono">BUFFER → LINES → COLUMNS → PAGES</p>
+      </div>
+    );
+  if (name === "PF_Project")
+    return (
+      <div className="game-diagram" aria-hidden="true">
+        <div className="tile-grid">
+          {Array.from({ length: 40 }, (_, i) => (
+            <span
+              key={i}
+              className={
+                [
+                  4, 5, 12, 13, 24, 25, 26, 32, 33, 34, 35, 36, 37, 38, 39,
+                ].includes(i)
+                  ? "solid"
+                  : ""
+              }
+            />
+          ))}
+        </div>
+        <div className="game-systems mono">
+          <span>INPUT & MOVEMENT</span>
+          <span>GRAVITY & COLLISION</span>
+          <span>SPRITE ANIMATION</span>
+        </div>
+      </div>
+    );
+  return (
+    <div className="watcher-diagram" aria-hidden="true">
+      <span>Observe</span>
+      <i>→</i>
+      <span>Compare</span>
+      <i>→</i>
+      <span>Notify</span>
+    </div>
+  );
+}
 function Work({ data, failed }: { data: Projects; failed: boolean }) {
-  const [expanded, setExpanded] = useState<string | null>(null);
-  const available = data.lastUpdated
-    ? featured.filter((name) => data.projects.some((p) => p.name === name))
-    : featured;
   return (
     <section id="work" className="section shell">
       <SectionTitle
         number="01"
         label="SELECTED WORK"
-        title="Small tools. Real problems."
+        title="Selected engineering work."
       >
-        <a className="text-link" href={github}>
-          All repositories <Arrow diagonal />
-        </a>
+        <p className="work-intro">
+          Four projects, with a look at the decisions underneath.
+        </p>
       </SectionTitle>
       <div className="project-grid">
-        {available.map((name, i) => {
+        {featured.map((name, i) => {
           const meta = data.projects.find((p) => p.name === name);
           const story = caseStudies[name];
           return (
-            <article key={name} className={`project project-${i}`}>
+            <article
+              key={name}
+              className={`project project-${i}`}
+              data-project={name}
+              aria-labelledby={`project-title-${i}`}
+            >
               <div className="project-top">
                 <span className="mono">
-                  {String(i + 1).padStart(2, "0")} /{" "}
-                  {i < 2 ? "SOFTWARE AUTOMATION" : "ALGORITHMS"}
+                  {String(i + 1).padStart(2, "0")} / {story.category}
                 </span>
                 <Arrow diagonal />
               </div>
-              <div className={`project-art art-${i}`} aria-hidden="true">
-                {i === 0 ? (
-                  <>
-                    <span className="diagram-node">Observe</span>
-                    <span className="diagram-line" />
-                    <span className="diagram-node strong">Compare</span>
-                    <span className="diagram-line" />
-                    <span className="diagram-node">Notify</span>
-                    <div className="diagram-caption">
-                      A change worth knowing about.
-                    </div>
-                  </>
-                ) : i === 1 ? (
-                  <>
-                    <div className="feed-lines">
-                      <span>
-                        Discover<span>01</span>
-                      </span>
-                      <span>
-                        Normalize<span>02</span>
-                      </span>
-                      <span>
-                        Notify<span>03</span>
-                      </span>
-                    </div>
-                    <span className="art-caption">
-                      Many sources.
-                      <br />
-                      One useful signal.
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <div className="sort-bars">
-                      {[28, 55, 36, 79, 47, 91, 65, 100].map((h, j) => (
-                        <span key={j} style={{ height: `${h}%` }} />
-                      ))}
-                    </div>
-                    <span className="art-caption">
-                      Understand
-                      <br />
-                      every step.
-                    </span>
-                  </>
-                )}
+              <div className="project-art">
+                <ProjectDiagram name={name} />
               </div>
               <div className="project-copy">
-                <h3>{name}</h3>
+                <h3 id={`project-title-${i}`}>{story.title}</h3>
                 <p>{story.intro}</p>
+                <div className="engineering-note">
+                  <h4>Engineering choices</h4>
+                  <p>{story.decision}</p>
+                </div>
                 <div className="tags">
-                  {story.tags.map((t) => (
-                    <span key={t}>{t}</span>
+                  {story.tags.map((tag) => (
+                    <span key={tag}>{tag}</span>
                   ))}
                 </div>
-                {meta && (
-                  <p className="project-updated mono">
-                    Repository updated {date(meta.updatedAt)}
-                  </p>
-                )}
                 <div className="project-actions">
-                  <a href={meta?.url ?? `${github}/${name}`}>
+                  <a href={`${github}/${name}`}>
                     View source <Arrow diagonal />
                   </a>
-                  <button
-                    aria-expanded={expanded === name}
-                    aria-controls={`detail-${name}`}
-                    onClick={() => setExpanded(expanded === name ? null : name)}
-                  >
-                    Engineering notes{" "}
-                    <span aria-hidden="true">
-                      {expanded === name ? "−" : "+"}
-                    </span>
-                  </button>
-                </div>
-                <div
-                  id={`detail-${name}`}
-                  hidden={expanded !== name}
-                  className="engineering-note"
-                >
-                  <p>{story.decision}</p>
+                  <span className="project-updated mono">
+                    {meta
+                      ? `Updated ${date(meta.updatedAt)}`
+                      : "Curated project · metadata unavailable"}
+                  </span>
                 </div>
               </div>
             </article>
           );
         })}
       </div>
-      {!available.length && (
-        <p className="empty">
-          Selected repositories are currently unavailable. Explore the public
-          GitHub profile for current work.
-        </p>
-      )}
       <p className="sync-note">
         <span className={`status-dot ${data.stale || failed ? "saved" : ""}`} />
         {data.lastUpdated
-          ? `${data.stale || failed ? "Saved repository metadata" : "Repository metadata refreshed hourly"} · Last synced ${date(data.lastUpdated)}`
+          ? `${data.stale || failed ? "Saved repository metadata" : "Metadata refreshed hourly for these four projects"} · Last synced ${date(data.lastUpdated)}`
           : "Curated project notes · GitHub metadata is temporarily unavailable."}
       </p>
-      {data.projects.some(
-        (p) => !(featured as readonly string[]).includes(p.name),
-      ) && (
-        <details className="other-projects">
-          <summary>
-            More from the workbench <span aria-hidden="true">+</span>
-          </summary>
-          <div>
-            {data.projects
-              .filter((p) => !(featured as readonly string[]).includes(p.name))
-              .map((p) => (
-                <a key={p.name} href={p.url}>
-                  <span>{p.name}</span>
-                  <span>
-                    {p.language ?? "Source"} <Arrow diagonal />
-                  </span>
-                </a>
-              ))}
-          </div>
-        </details>
-      )}
     </section>
   );
 }

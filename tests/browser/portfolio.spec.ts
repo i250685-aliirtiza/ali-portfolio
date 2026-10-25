@@ -90,22 +90,48 @@ for (const width of [375, 768, 1440])
       .getByRole("link", { name: "Academics" })
       .click();
     await expect(page).toHaveURL(/#academics$/);
-    await page
-      .getByRole("button", { name: "Engineering notes" })
-      .first()
-      .click();
+    const work = page.locator("#work");
+    await expect(work.locator("article")).toHaveCount(4);
+    expect(
+      await work
+        .locator("article")
+        .evaluateAll((nodes) =>
+          nodes.map((n) => n.getAttribute("data-project")),
+        ),
+    ).toEqual([
+      "Neural-Network",
+      "Blackwood-Hargrove-Editor",
+      "PF_Project",
+      "FLEX-WATCHER",
+    ]);
     await expect(
-      page.getByText("Authenticated responses are checked before parsing.", {
-        exact: false,
-      }),
-    ).toBeVisible();
-    await expect(page.getByRole("link", { name: "View source" })).toHaveCount(
-      3,
+      work.getByRole("heading", { name: "Engineering choices" }),
+    ).toHaveCount(4);
+    for (const heading of await work
+      .getByRole("heading", { name: "Engineering choices" })
+      .all())
+      await expect(heading).toBeVisible();
+    await expect(work.locator("details,button,[hidden]")).toHaveCount(0);
+    await expect(work).not.toContainText("More from the workbench");
+    await expect(work).not.toContainText("CP-WATCHER");
+    await expect(work).not.toContainText("Sorting-Visualizer");
+    await expect(work.getByRole("link", { name: "View source" })).toHaveCount(
+      4,
     );
-    for (const a of await page.getByRole("link", { name: "View source" }).all())
-      expect(await a.getAttribute("href")).toMatch(
-        /^https:\/\/github.com\/i250685-aliirtiza\//,
-      );
+    expect(
+      await work
+        .getByRole("link", { name: "View source" })
+        .evaluateAll((nodes) => nodes.map((n) => n.getAttribute("href"))),
+    ).toEqual([
+      "https://github.com/i250685-aliirtiza/Neural-Network",
+      "https://github.com/i250685-aliirtiza/Blackwood-Hargrove-Editor",
+      "https://github.com/i250685-aliirtiza/PF_Project",
+      "https://github.com/i250685-aliirtiza/FLEX-WATCHER",
+    ]);
+    await work.screenshot({
+      path: `test-results/work-${width}.png`,
+      animations: "disabled",
+    });
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
@@ -122,10 +148,6 @@ for (const width of [375, 768, 1440])
       ).violations,
     ).toEqual([]);
     expect(errors).toEqual([]);
-    await page
-      .getByRole("button", { name: "Engineering notes" })
-      .first()
-      .click();
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({
       path: `test-results/home-${width}.png`,
@@ -219,6 +241,6 @@ test("API outage does not blank the page; menu and skip link work by keyboard", 
     }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Small tools. Real problems." }),
+    page.getByRole("heading", { name: "Selected engineering work." }),
   ).toBeVisible();
 });

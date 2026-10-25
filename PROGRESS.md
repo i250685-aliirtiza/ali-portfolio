@@ -45,3 +45,10 @@ Workspace: `D:/Portfolio/ali-portfolio`. Node 24.18.0; npm 11.16.0. CLI installe
 - Existing watcher baseline remains unchanged: FLEX main PID 17956 active/enabled; CP timer active/enabled; CP one-shot inactive between scheduled runs, previous exit status 0.
 - Public dotfile/env/db/admin routes return 404; academic POST rejected; public projection contains approved fields only. Security headers present.
 - Local parser suite with external redacted capture: 52 passed. Seven browser tests pass including populated desktop/mobile dashboard and accessibility checks. GitHub Ubuntu CI passed for the deployed code. Real capture remains outside Git; only synthetic fixture values are committed.
+
+## Four-project showcase revision — 26 October 2026
+
+- Replaced project discovery UI with the owner's exact four-project selection and order. Removed the workbench dropdown and obsolete descriptions/styles. Source review documented in docs/project-showcase.md; source repositories unchanged.
+- Featured neural-network card, paired editor/game cards and supporting watcher card remain visible on metadata outages. Shared cache validation removes unapproved repositories and duplicates from older snapshots.
+- Formatting, type-check/build, 58 unit tests with the private capture, and seven browser tests passed. Visual review and accessibility checks completed at 375/768/1440px. All four repository links returned HTTP 200. Dependency audit found zero vulnerabilities.
+- Unauthenticated GitHub rate limiting preserved the saved cache. A fresh authenticated fetch into isolated local verification state returned exactly the four approved repositories in order; no credential persisted.

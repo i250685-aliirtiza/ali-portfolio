@@ -2,7 +2,7 @@
 
 Nginx serves the Vite `dist` tree and exactly three public GET endpoints. Native Node runs on loopback as the dedicated `ali-portfolio` user. Shared Zod schemas validate private records and public responses. React renders all data as escaped text.
 
-The hourly GitHub worker targets only the official API, filters private/fork/archived/empty repositories, paginates within a limit and keeps curated ordering. A failed page rejects the whole refresh; saved projects remain available. No browser request triggers upstream polling.
+The hourly GitHub worker targets only the official API, filters private/fork/archived/empty repositories, paginates within a limit and keeps exactly four allowlisted repositories in curated order. Shared validation filters legacy caches as well. The UI always renders the four authored cards, even with absent metadata. A failed page rejects the whole refresh; saved projects remain available. No browser request triggers upstream polling.
 
 The independent transcript worker targets the authorized `/Student/Transcript` route with a manually supplied session. Its built-in parser was reviewed against the owner's redacted capture. It recognizes the transcript heading, semester panels, exact column meanings and complete course rows. Term/year labels establish chronology; GPA values come from labeled source fields. In-progress grades retain their source letter, with null SGPA for unfinished terms. It never derives grades from assessment marks. A reviewed selector profile remains optional for alternate layouts.
 

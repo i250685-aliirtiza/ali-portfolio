@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { featured } from "./content.js";
 
 export const owner = "i250685-aliirtiza";
 export const stamp = z.string().datetime();
@@ -49,11 +50,23 @@ export const projectSchema = z.object({
   language: label.nullable(),
   updatedAt: stamp,
 });
-export const projectsSchema = z.object({
-  projects: z.array(projectSchema),
-  lastUpdated: stamp.nullable(),
-  stale: z.boolean(),
-});
+export const projectsSchema = z
+  .object({
+    projects: z.array(projectSchema),
+    lastUpdated: stamp.nullable(),
+    stale: z.boolean(),
+  })
+  .transform((value) => ({
+    ...value,
+    // Applies to legacy caches and browser responses: fixed order, no duplicates.
+    projects: featured.flatMap((name) => {
+      const project = value.projects.find(
+        (p) =>
+          p.name === name && p.url === `https://github.com/${owner}/${name}`,
+      );
+      return project ? [project] : [];
+    }),
+  }));
 export const academicFields = [
   "cgpa",
   "semesterLabel",

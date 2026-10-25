@@ -79,6 +79,7 @@ export async function syncGithub(
           !r.fork &&
           !r.archived &&
           r.size > 0 &&
+          (featured as readonly string[]).includes(r.name) &&
           r.owner.login === owner &&
           r.html_url === `https://github.com/${owner}/${r.name}`,
       )

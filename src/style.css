@@ -307,6 +307,11 @@ button {
   padding-bottom: 4px;
   white-space: normal;
 }
+.work-intro {
+  max-width: 28ch;
+  font-size: 14px;
+  line-height: 1.6;
+}
 .project-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -317,97 +322,77 @@ button {
   border-radius: 8px;
   overflow: hidden;
   background: var(--surface);
-}
-.project-0 {
-  grid-column: 1/-1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 .project-top {
-  font-size: 10px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 22px 24px 0;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 26px 8px;
   color: var(--muted);
 }
-.project-top > .mono {
+.project-top .mono {
   font-size: 10px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.035em;
 }
 .project-top > span:last-child {
-  font-size: 23px;
-}
-.project-0 .project-top {
-  grid-column: 1;
-  grid-row: 1;
-  background: #e9f0eb;
+  font-size: 22px;
 }
 .project-art {
-  height: 160px;
-  margin: 12px 24px 0;
-  position: relative;
+  margin: 14px 26px 0;
+  background: #edf1eb;
+  border: 1px solid #e2e8df;
+  border-radius: 4px;
+  padding: 24px;
+  min-height: 190px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.project-0 .project-art {
-  grid-column: 1;
-  grid-row: 2;
-  margin: 0;
-  background: #e9f0eb;
-  height: 250px;
-  padding: 0 24px 34px;
-}
-.project-0 .project-copy {
-  grid-column: 2;
-  grid-row: 1/3;
-  padding: 36px 32px;
-}
-.diagram-node {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 11px;
-  border: 1px solid #b5c8bc;
-  padding: 14px 12px;
-  background: #f8fbf8;
-  border-radius: 4px;
-  z-index: 1;
-}
-.diagram-node.strong {
-  background: var(--accent);
-  color: white;
-  border-color: var(--accent);
-}
-.diagram-line {
-  height: 1px;
-  background: #a2b5a8;
-  width: 32px;
-}
-.diagram-caption {
-  position: absolute;
-  bottom: 38px;
-  font-size: 11px;
-  letter-spacing: 0.02em;
-  color: var(--accent);
-}
 .project-copy {
-  padding: 23px 24px 24px;
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
 }
 .project-copy h3 {
-  font-size: 23px;
-  letter-spacing: -0.025em;
-  overflow-wrap: anywhere;
+  font-size: 27px;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
 }
 .project-copy > p {
   font-size: 16px;
-  line-height: 1.7;
-  margin-top: 14px;
+  line-height: 1.75;
+  margin-top: 16px;
+}
+.engineering-note {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.engineering-note h4 {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+.engineering-note p {
+  font-size: 15px;
+  line-height: 1.8;
 }
 .tags {
   display: flex;
   gap: 7px;
   flex-wrap: wrap;
-  margin-top: 20px;
+  margin-top: 24px;
+  margin-bottom: 22px;
 }
 .tags span {
   font-size: 10px;
@@ -419,84 +404,373 @@ button {
 }
 .project-actions {
   display: flex;
-  gap: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid var(--line);
-  padding-top: 19px;
-  margin-top: 24px;
-  font-size: 12px;
+  padding-top: 18px;
+  margin-top: auto;
 }
 .project-actions a {
+  font-size: 13px;
   font-weight: 500;
   display: flex;
   gap: 12px;
   align-items: center;
+  min-height: 30px;
 }
-.project-actions button {
-  border: 0;
-  background: none;
-  padding: 4px 0;
-  color: var(--muted);
-  font-size: 12px;
-  display: flex;
-  gap: 12px;
-}
-.project-actions button:hover {
-  color: var(--accent);
-}
-.engineering-note {
-  padding-top: 18px;
-  font-size: 14px;
-}
-.project-copy .project-updated {
+.project-updated {
   font-size: 9px;
   color: var(--muted);
-  margin-top: 14px;
+  line-height: 1.7;
 }
-.art-1,
-.art-2 {
-  background: #f1f3ee;
-  border-radius: 4px;
-  justify-content: space-around;
-}
-.art-caption {
-  font-size: 17px;
-  line-height: 1.35;
-  color: #52634f;
-  letter-spacing: -0.03em;
-}
-.feed-lines {
-  width: 45%;
+.project-0 {
+  grid-column: 1/-1;
   display: grid;
-  gap: 6px;
+  grid-template-columns: 1fr 1.2fr;
 }
-.feed-lines > span {
+.project-0 .project-top {
+  grid-column: 1;
+  grid-row: 1;
+  background: #e9f0eb;
+  padding: 24px 28px;
+}
+.project-0 .project-art {
+  grid-column: 1;
+  grid-row: 2;
+  margin: 0;
+  padding: 24px 28px 38px;
+  border: 0;
+  border-radius: 0;
+  background: #e9f0eb;
+  min-height: 320px;
+}
+.project-0 .project-copy {
+  grid-column: 2;
+  grid-row: 1/3;
+  padding: 36px;
+}
+.project-0 h3 {
+  font-size: 35px;
+  max-width: 15ch;
+}
+.network-diagram {
+  width: 100%;
+  color: var(--accent);
+}
+.diagram-label {
+  font-size: 9px;
+  letter-spacing: 0.03em;
+  text-align: center;
+}
+.computation-flow {
   display: flex;
-  justify-content: space-between;
-  padding: 6px 10px;
-  border: 1px solid #d9dfd5;
-  background: #fff;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+.computation-flow span {
+  border: 1px solid #a7beaf;
+  background: #f8faf6;
+  border-radius: 4px;
+  padding: 15px 11px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.computation-flow span:nth-last-child(3) {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+.computation-flow i,
+.watcher-diagram i {
+  font-style: normal;
+  font-size: 13px;
+}
+.backward-flow {
+  font-size: 9px;
+  margin: 19px 0 32px;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+.arena-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid #bbccbf;
+  border-radius: 4px;
+}
+.arena-pair > div {
+  padding: 16px 12px;
+}
+.arena-pair > div + div {
+  border-left: 1px solid #bbccbf;
+}
+.arena-pair .mono {
+  font-size: 8px;
+  display: block;
+  color: #506951;
+}
+.arena-pair strong {
+  font-weight: 400;
+  font-size: 13px;
+  display: block;
+  margin-top: 7px;
+}
+.diagram-footnote {
+  font-size: 10px;
+  text-align: center;
+  margin-top: 24px;
+  color: var(--accent);
+}
+.editor-diagram {
+  width: 100%;
+  max-width: 310px;
+}
+.editor-tabs {
+  display: flex;
+  border-bottom: 1px solid #c1cebd;
+  font-size: 9px;
+  gap: 18px;
+  color: #50634f;
+}
+.editor-tabs span {
+  padding: 7px 10px;
+}
+.editor-tabs span:first-child {
+  background: white;
+  border: 1px solid #c1cebd;
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+}
+.editor-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 16px 20px;
+  background: #fbfcf9;
+  border: 1px solid #d6dfd1;
+  border-top: 0;
+}
+.editor-layout > div {
+  display: grid;
+  gap: 8px;
+}
+.editor-layout span {
+  height: 3px;
+  background: #d0dacb;
+  width: 100%;
+}
+.editor-layout .marked-line {
+  background: #6d937d;
+}
+.editor-layout .short-line {
+  width: 60%;
+}
+.editor-diagram > p {
+  font-size: 8px;
+  text-align: center;
+  margin-top: 14px;
+  color: #50634f;
+}
+.game-diagram {
+  display: flex;
+  width: 100%;
+  gap: 26px;
+  justify-content: space-around;
+  align-items: center;
+}
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 3px;
+  width: 164px;
+  flex-shrink: 0;
+}
+.tile-grid span {
+  aspect-ratio: 1;
+  border: 1px solid #d7dfd0;
+  border-radius: 1px;
+}
+.tile-grid .solid {
+  background: #81987b;
+  border-color: #81987b;
+}
+.game-systems {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 8px;
+  line-height: 1.5;
+  color: #50634f;
+}
+.project-3 {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+}
+.project-3 .project-top {
+  grid-column: 1/-1;
+}
+.project-3 .project-art {
+  grid-column: 1;
+  grid-row: 2;
+  margin: 16px 0 26px 26px;
+  padding: 16px;
+  background: #f2f4ef;
+  min-height: 0;
+}
+.project-3 .project-copy {
+  grid-column: 2;
+  grid-row: 2;
+  padding-top: 18px;
+}
+.project-3 .engineering-note {
+  margin-top: 18px;
+  padding-top: 16px;
+}
+.watcher-diagram {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent);
+}
+.watcher-diagram span {
   font-family: "IBM Plex Mono", monospace;
   font-size: 10px;
 }
-.feed-lines > span > span {
-  color: #536b59;
+@media (max-width: 960px) {
+  .project-0 {
+    grid-template-columns: 1fr 1.1fr;
+  }
+  .project-0 .project-copy {
+    padding: 28px;
+  }
+  .project-0 .project-art {
+    padding: 20px;
+  }
+  .computation-flow {
+    gap: 5px;
+  }
+  .computation-flow span {
+    font-size: 10px;
+    padding: 12px 8px;
+  }
+  .game-diagram {
+    gap: 16px;
+  }
+  .tile-grid {
+    width: 120px;
+  }
+  .game-systems {
+    font-size: 7px;
+  }
+  .project-3 {
+    grid-template-columns: 220px 1fr;
+  }
+  .watcher-diagram {
+    gap: 6px;
+  }
+  .watcher-diagram span {
+    font-size: 9px;
+  }
 }
-.sort-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 6px;
-  height: 84px;
-  width: 46%;
-}
-.sort-bars span {
-  width: 18px;
-  background: #bdcabc;
-  border-radius: 2px 2px 0 0;
-}
-.sort-bars span:nth-child(3n) {
-  background: var(--accent);
+@media (max-width: 680px) {
+  .work-intro {
+    margin-top: 16px;
+    max-width: 34ch;
+  }
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .project-0,
+  .project-3 {
+    display: flex;
+    flex-direction: column;
+  }
+  .project-top {
+    padding: 20px 22px 8px;
+  }
+  .project-top .mono {
+    font-size: 8px;
+    line-height: 1.7;
+  }
+  .project-0 .project-top {
+    padding: 22px;
+  }
+  .project-art {
+    margin: 12px 22px 0;
+    padding: 20px;
+    min-height: 180px;
+  }
+  .project-0 .project-art {
+    padding: 18px 22px 30px;
+    min-height: 280px;
+  }
+  .project-0 .project-copy,
+  .project-copy {
+    padding: 26px 22px;
+  }
+  .project-copy h3 {
+    font-size: 26px;
+  }
+  .project-0 h3 {
+    font-size: 32px;
+    max-width: none;
+  }
+  .project-copy > p {
+    font-size: 16px;
+  }
+  .engineering-note p {
+    font-size: 15px;
+  }
+  .project-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .project-updated {
+    font-size: 8px;
+  }
+  .computation-flow {
+    gap: 6px;
+  }
+  .computation-flow span {
+    padding: 12px 8px;
+    font-size: 10px;
+  }
+  .arena-pair > div {
+    padding: 14px 10px;
+  }
+  .arena-pair strong {
+    font-size: 12px;
+  }
+  .game-diagram {
+    gap: 18px;
+  }
+  .tile-grid {
+    width: 132px;
+  }
+  .game-systems {
+    font-size: 8px;
+  }
+  .project-3 .project-art {
+    margin: 12px 22px 0;
+    padding: 24px;
+    min-height: 90px;
+  }
+  .project-3 .project-copy {
+    padding: 26px 22px;
+  }
+  .watcher-diagram {
+    gap: 18px;
+  }
+  .watcher-diagram span {
+    font-size: 11px;
+  }
 }
 .sync-note {
   font-size: 10px;
@@ -505,33 +779,6 @@ button {
   align-items: center;
   gap: 8px;
   margin-top: 20px;
-  color: var(--muted);
-}
-.other-projects {
-  margin-top: 24px;
-  border-block: 1px solid var(--line);
-  font-size: 14px;
-}
-.other-projects summary {
-  cursor: pointer;
-  padding: 18px 0;
-}
-.other-projects summary > span {
-  float: right;
-}
-.other-projects > div {
-  padding-bottom: 16px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 24px;
-}
-.other-projects a {
-  display: flex;
-  gap: 12px;
-  justify-content: space-between;
-  font-size: 12px;
-}
-.other-projects a > span:last-child {
   color: var(--muted);
 }
 .interests {
@@ -857,16 +1104,6 @@ th {
   .focus-panel {
     padding: 24px;
   }
-  .project-0 .project-copy {
-    padding: 28px 24px;
-  }
-  .diagram-node {
-    font-size: 10px;
-    padding: 12px 9px;
-  }
-  .diagram-line {
-    width: 20px;
-  }
   .academics-grid {
     grid-template-columns: 1fr 1.7fr;
   }
@@ -997,32 +1234,6 @@ th {
   .eyebrow {
     font-size: 10px;
   }
-  .project-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .project-0 {
-    display: block;
-  }
-  .project-0 .project-art {
-    height: 190px;
-  }
-  .project-0 .project-top {
-    padding-bottom: 0;
-  }
-  .project-0 .project-copy {
-    padding: 24px;
-  }
-  .project-art {
-    height: 148px;
-  }
-  .project-actions {
-    font-size: 12px;
-    gap: 14px;
-  }
-  .project-actions button {
-    font-size: 11px;
-  }
   .sync-note {
     font-size: 9px;
     align-items: baseline;
@@ -1139,12 +1350,6 @@ th {
   }
   .footer > a:last-child {
     margin-left: auto;
-  }
-  .other-projects > div {
-    grid-template-columns: 1fr;
-  }
-  .other-projects a {
-    font-size: 11px;
   }
   td,
   th {

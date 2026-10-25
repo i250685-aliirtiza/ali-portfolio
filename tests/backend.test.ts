@@ -21,6 +21,7 @@ import {
 import { createApi } from "../server/api.js";
 import { html, profile } from "./fixtures.js";
 import { retryStatus, workerStatusSchema } from "../server/schedule.js";
+import { featured } from "../shared/content.js";
 
 let store: Store;
 const now = Date.parse("2026-10-25T09:00:00Z");
@@ -56,12 +57,15 @@ afterEach(async () => {
 });
 
 describe("GitHub refresh", () => {
-  it("filters private, fork, archived, empty and wrong-owner repositories and curates order", async () => {
+  it("publishes exactly the curated allowlist in its fixed order", async () => {
     const value = await syncGithub(
       store,
       fake([
         repo("Other"),
         repo("CP-WATCHER"),
+        repo("PF_Project"),
+        repo("Blackwood-Hargrove-Editor"),
+        repo("Neural-Network"),
         repo(),
         repo("Secret", { private: true }),
         repo("Fork", { fork: true }),
@@ -71,11 +75,7 @@ describe("GitHub refresh", () => {
       ]),
       now,
     );
-    expect(value.projects.map((r) => r.name)).toEqual([
-      "FLEX-WATCHER",
-      "CP-WATCHER",
-      "Other",
-    ]);
+    expect(value.projects.map((r) => r.name)).toEqual([...featured]);
     expect(value.stale).toBe(false);
   });
   it("reuses a fresh cache without a network call", async () => {
@@ -120,10 +120,10 @@ describe("GitHub refresh", () => {
     await syncGithub(store, fake([repo()]), now);
     const value = await syncGithub(
       store,
-      fake([repo("Other", { description: null, language: null })]),
+      fake([repo("Neural-Network", { description: null, language: null })]),
       now + githubTTL * 3,
     );
-    expect(value.projects.map((p) => p.name)).toEqual(["Other"]);
+    expect(value.projects.map((p) => p.name)).toEqual(["Neural-Network"]);
     expect(value.projects[0].description).toBeNull();
   });
   it("does not follow untrusted links or send the token outside the fixed API", async () => {
@@ -140,7 +140,7 @@ describe("GitHub refresh", () => {
       "synthetic",
     );
   });
-  it("paginates without losing projects", async () => {
+  it("paginates but never publishes discovered non-allowlisted projects", async () => {
     let calls = 0;
     const result = await syncGithub(
       store,
@@ -155,7 +155,56 @@ describe("GitHub refresh", () => {
       now,
     );
     expect(calls).toBe(2);
-    expect(result.projects).toHaveLength(101);
+    expect(result.projects.map((p) => p.name)).toEqual(["FLEX-WATCHER"]);
+  });
+  it.each([
+    { private: true },
+    { fork: true },
+    { archived: true },
+    { size: 0 },
+    { owner: { login: "someone-else" } },
+  ])("filters ineligible allowlisted metadata: %j", async (flags) => {
+    expect(
+      (await syncGithub(store, fake([repo("Neural-Network", flags)]), now))
+        .projects,
+    ).toEqual([]);
+  });
+  it("filters legacy caches before serving or returning a fresh-cache hit", async () => {
+    const legacy = {
+      projects: [...featured].reverse().map((name) => ({
+        name: name as string,
+        description: null,
+        url: `https://github.com/${owner}/${name}`,
+        language: "C++",
+        updatedAt: new Date(now).toISOString(),
+      })),
+      lastUpdated: new Date(now).toISOString(),
+      stale: false,
+    };
+    legacy.projects.push({
+      ...legacy.projects[0],
+      name: "CP-WATCHER",
+      url: `https://github.com/${owner}/CP-WATCHER`,
+    });
+    legacy.projects.push({ ...legacy.projects[1] });
+    await writeFile(
+      join(store.directory, "github.json"),
+      JSON.stringify(legacy),
+    );
+    expect(
+      (await projectsView(store, now)).projects.map((p) => p.name),
+    ).toEqual([...featured]);
+    expect(
+      (
+        await syncGithub(
+          store,
+          (() => {
+            throw new Error("no fetch");
+          }) as typeof fetch,
+          now,
+        )
+      ).projects.map((p) => p.name),
+    ).toEqual([...featured]);
   });
 });
 describe("transcript parser and privacy", () => {
