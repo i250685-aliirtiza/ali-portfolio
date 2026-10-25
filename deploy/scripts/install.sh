@@ -52,6 +52,10 @@ for attempt in 1 2 3 4 5; do
 done
 curl -fsS http://127.0.0.1:4317/api/public/status
 systemctl reload nginx
+for attempt in 1 2 3 4 5; do
+  if curl -fsS -H "Host: $host" http://127.0.0.1/api/public/status; then break; fi
+  sleep 1
+done
 curl -fsS -H "Host: $host" http://127.0.0.1/api/public/status
 systemctl start ali-portfolio-github-sync.service || echo 'Refresh unavailable; inspect private worker status'
 systemctl is-enabled ali-portfolio-api.service ali-portfolio-github-sync.timer ali-portfolio-transcript-sync.timer

@@ -1,23 +1,19 @@
 # Architecture
 
-Nginx serves only the Vite `dist` tree and three exact public GET routes. Native Node runs on loopback as an unprivileged system user. Browser responses are validated again with shared Zod schemas; text is rendered by React, never injected HTML.
+Nginx serves the Vite `dist` tree and exactly three public GET endpoints. Native Node runs on loopback as the dedicated `ali-portfolio` user. Shared Zod schemas validate private records and public responses. React renders all data as escaped text.
 
-The GitHub worker reads official public repository metadata, with explicit public/owner/fork/archive/size filtering and pinned ordering. All requests target a fixed API origin with redirects disabled. Pagination is bounded; any failed/invalid page rejects the entire refresh. Missing repositories disappear only after a complete successful refresh. The API reuses saved metadata through outages. Hourly refresh avoids request-per-visitor upstream access.
+The hourly GitHub worker targets only the official API, filters private/fork/archived/empty repositories, paginates within a limit and keeps curated ordering. A failed page rejects the whole refresh; saved projects remain available. No browser request triggers upstream polling.
 
-The transcript worker is independent of existing watchers. It requires an explicit official-origin URL, a manually authorized session, and a reviewed selector profile made from real source evidence. It never navigates login/challenge pages or computes final grades from assessment marks. HTTP status, redirect, content type, size, markup completeness, unique fields, source order and grade/GPA values are validated before persistence. A timestamp changes only after a complete validated refresh.
+The independent transcript worker targets the authorized `/Student/Transcript` route with a manually supplied session. Its built-in parser was reviewed against the owner's redacted capture. It recognizes the transcript heading, semester panels, exact column meanings and complete course rows. Term/year labels establish chronology; GPA values come from labeled source fields. In-progress grades retain their source letter, with null SGPA for unfinished terms. It never derives grades from assessment marks. A reviewed selector profile remains optional for alternate layouts.
 
-Snapshots are written as mode-0600 temporary files, fsynced and atomically renamed; a validated last-good backup is retained. On Linux the directory is also fsynced. Read failures can fall back to a schema-valid backup. Private directories are mode 0700. API publication is an explicit projection from an approved field allowlist; disabling publication immediately returns the self-reported default.
+The collector rejects redirects, login/challenge pages, wrong content types, excessive size, missing/ambiguous markup, invalid values and loss of previously saved courses or semesters. Failures preserve the last good snapshot. A deliberate correction removing historical records needs private operator review rather than silent replacement.
 
-Each worker has a process lock, persistent failure counter, bounded exponential backoff and a systemd timeout. GitHub starts hourly, transcript every twelve hours. No browser endpoint triggers either worker. The scheduler is deliberately separate from the long-running API and both existing watchers.
+Snapshots distinguish owner-provided captures from authenticated FLEX responses. Captures expose an import timestamp and an explicit live-sync-pending label. Only an authenticated successful fetch records a live-sync timestamp and verified provenance. The owner approved the public field allowlist on 26 October 2026; names, IDs, sections, remarks, fees, cookies and raw source HTML are not part of the public contract.
+
+State files are mode 0600 inside a 0700 directory. Writes validate, fsync and atomically rename; a last-good backup is retained. Linux directory metadata is also fsynced. The API reads state without filesystem write permission. Each worker has an overlap lock, persistent bounded backoff and a systemd timeout. GitHub refreshes hourly; transcript every twelve hours.
+
+The deployment uses immutable GitHub releases, an atomic `current` symlink, an app-specific Node 24 runtime and isolated systemd units. Existing watcher runtimes, units, cookies and data are untouched. Updates preserve Nginx/TLS configuration and can roll back the release symlink on failed API health checks.
 
 ## Limits
 
-This version expects a complete transcript in one authorized HTML response. A real multi-page or AJAX transcript needs a reviewed collector extension before enabling it. There is intentionally no fabricated default FLEX profile. The parser accepts explicitly mapped formats and rejects missing/ambiguous structures, but only real-page validation can establish source correctness. It does not send email alerts; private worker status and journald are the maintenance signals.
-
-Nginx and systemd templates must be tested on the actual Ubuntu host. They are not proof of deployment by themselves. A domain-specific canonical URL and sitemap are added after the public hostname is known.
-
-## Reviewed FLEX implementation (26 October 2026)
-
-The initial pending adapter is now completed against the authorized redacted capture. `server/flex-parser.ts` recognizes the actual transcript heading, semester panels, labeled GPA summaries and complete course tables. It validates closing markup, unique term ordering, column meanings and every row. The generic selector parser supports reviewed alternate formats. The built-in collector strictly uses `/Student/Transcript` with no query string.
-
-Private snapshots distinguish owner-provided captures from authenticated FLEX responses. Public projections expose an import timestamp for captures and a successful-sync timestamp only for authenticated refreshes. The owner approved all academic allowlist fields; identifiers and unrelated columns remain excluded.
+The reviewed source is one complete HTML response. A future multi-page/AJAX source needs a reviewed collector extension. No automated login, challenge bypass or email-alert subsystem is included. The IP-only launch uses HTTP as requested. Session acceptance depends on FLEX; an imported record is never labeled as a successful live fetch.

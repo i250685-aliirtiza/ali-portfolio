@@ -22,8 +22,12 @@ const lock = await open(lockPath, "wx", 0o600).catch(() => null);
 if (!lock) process.exit(0);
 try {
   const status = await store.read(`${kind}-status.json`, statusSchema);
-  if (status && Date.now() < status.nextAttempt) process.exitCode = 0;
-  else if (
+  if (status && Date.now() < status.nextAttempt) {
+    console.log(
+      `${kind}: refresh deferred by retry/interval gate; saved data unchanged`,
+    );
+    process.exitCode = 0;
+  } else if (
     kind === "transcript" &&
     (!process.env.FLEX_TRANSCRIPT_URL || !process.env.FLEX_COOKIE)
   ) {
@@ -59,7 +63,7 @@ try {
         statusSchema,
       );
       console.log(`${kind}: refreshed`);
-    } catch {
+    } catch (error) {
       const failures = (status?.failures ?? 0) + 1;
       await store.write(
         `${kind}-status.json`,
@@ -67,8 +71,15 @@ try {
         statusSchema,
       );
       // No upstream error text, HTML, request URLs, headers or identifiers are logged.
+      const reason =
+        error instanceof Error &&
+        /^(transcript_[a-z_]+|github_(rate_limit|unavailable|incomplete))$/.test(
+          error.message,
+        )
+          ? error.message
+          : "validation_or_network_failure";
       console.error(
-        `${kind}: refresh failed; last good data preserved; retry deferred`,
+        `${kind}: ${reason}; last good data preserved; retry deferred`,
       );
       process.exitCode = 1;
     }

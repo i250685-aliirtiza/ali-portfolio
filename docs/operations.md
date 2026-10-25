@@ -31,3 +31,15 @@ curl -fsS http://127.0.0.1:4317/api/public/status
 GitHub refresh runs hourly; transcript every twelve hours. A worker failure leaves the last successful cache unchanged and persists retry backoff (maximum 48 hours). Worker locks prevent overlaps; stale locks recover after thirty minutes, exceeding systemd runtime limits. Preserve the private state directory and environment in owner-controlled encrypted backups. Do not publish backups.
 
 See [transcript authentication](transcript-auth.md) for safe session renewal and field approval; [rollback](../deploy/rollback.md) for recovery. No real deployment or TLS checks may be marked complete until they have actually run.
+
+## Current installation and update command
+
+The IP-only HTTP site is `http://140.245.29.231/`. An isolated Node 24.18.0 runtime resides under `/opt/ali-portfolio/runtimes/`; the existing watchers retain `/usr/bin/node` v20.20.2. The npm cache is `/var/cache/ali-portfolio`, writable only by the portfolio user.
+
+After committing/pushing and verifying CI, update with:
+
+```sh
+sudo bash /opt/ali-portfolio/current/deploy/scripts/update.sh FULL_PUSHED_SHA
+```
+
+This clones the exact revision, builds with the private npm cache and a bounded Node heap, switches releases, restarts only the portfolio API, and rolls back its symlink if health fails. Nginx, configuration, private data, timers and watcher services remain unchanged. Do not use the first-install script for routine updates.
