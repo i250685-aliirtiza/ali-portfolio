@@ -1,32 +1,24 @@
 # Authorized transcript integration
 
-Status: **AWAITING AUTHORIZED SESSION / REAL-PAGE VALIDATION**.
+The owner supplied an authorized redacted capture and approved publishing CGPA, semester labels/SGPA, course names/codes, final grades and credits on 26 October 2026 (Asia/Karachi). The actual capture remains outside Git. Production uses the built-in parser for `https://flexstudent.nu.edu.pk/Student/Transcript`, with no captured dump query parameter.
 
-The existing FLEX-WATCHER parses assessment marks, not final course grades. This project must not reuse that HTML layout as proof of a transcript. No production selector profile or guessed endpoint is committed.
+The parser reads each semester's `h5`, labeled CGPA/SGPA spans and eight-column course table. Only code, course title, credits and final grade enter the normalized record. Semester ordering follows explicit term/year labels. `I`/`IP` grades are displayed as in progress; unfinished terms have null SGPA. A completed term's legitimate zero is retained. CGPA comes from the latest source-reported cumulative value, never an average.
 
-## One-time integration gate
+An owner-provided capture may be imported privately with `node build/server/import-transcript.js /private/path/to/capture.html`. Set `DATA_DIR` explicitly. This creates `owner-capture` provenance and an import timestamp, NOT a successful live-sync timestamp. The dashboard labels it accordingly. A successful authenticated response replaces it with verified source provenance. Do not import over a newer verified snapshot.
 
-1. Supply the non-secret exact transcript page URL from the owner’s normal authenticated FLEX browser. Supply a local path to a redacted HTML capture if available. Keep it outside this repository and remove name, ID, account details, fees and authentication material. Preserve semester/grade structure and completeness. No CAPTCHA or access-control bypass is supported.
-2. The engineer inspects the capture, identifies positive transcript evidence, validates labels/order/final grades, and writes a profile outside Git. `profileSchema` defines the accepted fields: capture SHA-256, root, CGPA selector, semester selector, semester label, numeric source order attribute, SGPA selector, course row/code/title/final grade and optional credits selectors. Selectors must each have unique intended matches. If the real source lacks these structures, adapt the parser to the observed format and add a fully synthetic matching fixture. Do not modify source HTML or invent a source order to force a match.
-3. Store the reviewed profile at `/var/lib/ali-portfolio/parser-profile.json` mode 0600, owned by `ali-portfolio`. Its evidence hash documents the inspected capture, not an automatic proof of authenticity. Configure `FLEX_PARSER_CONFIG` and `FLEX_TRANSCRIPT_URL` privately.
-4. Set the current manually authorized full cookie header using `sudoedit /etc/ali-portfolio.env`. Keep root:root ownership and mode 0600. Never paste cookies into chat, Git, screenshots, a shell command, or logs. The application neither stores a password nor logs in automatically.
-5. Run the new transcript worker and review the normalized private snapshot locally. Verify every semester, grade, SGPA and CGPA against the authenticated source. Confirm no course rows were omitted and no assessment score was interpreted as a final grade. Keep details unpublished during validation.
-6. Obtain explicit owner approval of public fields and record the approved field names/date without copying private records into Git. Only then set `PUBLIC_ACADEMICS_ENABLED=true` and the exact `PUBLIC_ACADEMIC_FIELDS` allowlist. Restart the portfolio API to load the policy. Re-check its public response for unwanted fields.
+## Configure / renew a session
 
-Until this gate is complete, the public site shows only 2.43 labeled self-reported and an honest empty semester state. A failed refresh must never replace the last good snapshot.
+1. Log into FLEX normally in your own browser; do not bypass a challenge.
+2. Connect to Oracle and run `sudoedit /etc/ali-portfolio.env`.
+3. Replace only `FLEX_COOKIE` with the authorized full cookie header in double quotes. Never paste it in chat, a command line, screenshots or Git.
+4. Keep root ownership and mode 0600. The exact URL is configured; leave `FLEX_PARSER_CONFIG` empty for the built-in parser.
+5. If retries are deferred, stop the portfolio transcript timer, ensure the one-shot service is inactive, and remove ONLY `transcript-status.json` and its `.bak` from `/var/lib/ali-portfolio/`. Never remove `transcript.json` or its backup.
+6. Start `ali-portfolio-transcript-sync.service`, then start its enabled timer. Check coarse status and last-success timestamps without printing cookies or source HTML.
 
-## Session renewal
+The worker refreshes every twelve hours with bounded backoff. Login pages, redirects, 401/403, challenges, invalid content types, malformed tables, missing fields and timeouts preserve the last good record. Credentials remain separate from data. The portfolio has no public session/update endpoints and does not log request bodies, cookie values or raw source responses.
 
-Log into FLEX normally and obtain a fresh cookie. Run `sudoedit /etc/ali-portfolio.env`, replace only the portfolio’s `FLEX_COOKIE`, then verify owner/mode without printing contents:
+## Testing
 
-```sh
-sudo chown root:root /etc/ali-portfolio.env
-sudo chmod 600 /etc/ali-portfolio.env
-sudo systemctl stop ali-portfolio-transcript-sync.timer
-# Allow an active one-shot to finish; check it is inactive first.
-sudo systemctl is-active ali-portfolio-transcript-sync.service
-```
+`npm test` runs the committed synthetic fixture suite. To additionally exercise the authorized capture locally, set `TRANSCRIPT_CAPTURE_PATH` to its external file path. Tests cover all rows, source values, incomplete grades, login/HTTP failures, malformed/truncated DOM and preservation of snapshots. Never commit the real capture or actual grade fixtures. Browser screenshots use synthetic records.
 
-After confirming the worker is inactive, remove only `/var/lib/ali-portfolio/transcript-status.json` and its `.bak` to clear the retry gate (never remove `transcript.json`). Start `ali-portfolio-transcript-sync.service` and re-enable/start its timer. Check its coarse journald message and the private last-success timestamp. The default retry can otherwise defer a fresh cookie for up to 48 hours after repeated failures.
-
-Do not touch FLEX-WATCHER’s cookie, timer, service, snapshot or configuration. If the university blocks or challenges the request, wait for manual authorized access; do not evade it.
+Existing FLEX-WATCHER and CP-WATCHER configuration, sessions, code, timers and data remain independent and untouched. A successful live request is required before calling the integration verified live.

@@ -25,9 +25,7 @@ try {
   if (status && Date.now() < status.nextAttempt) process.exitCode = 0;
   else if (
     kind === "transcript" &&
-    (!process.env.FLEX_PARSER_CONFIG ||
-      !process.env.FLEX_TRANSCRIPT_URL ||
-      !process.env.FLEX_COOKIE)
+    (!process.env.FLEX_TRANSCRIPT_URL || !process.env.FLEX_COOKIE)
   ) {
     await store.write(
       `${kind}-status.json`,
@@ -43,9 +41,13 @@ try {
         await syncTranscript(store, {
           url: process.env.FLEX_TRANSCRIPT_URL!,
           cookie: process.env.FLEX_COOKIE!,
-          profile: profileSchema.parse(
-            JSON.parse(await readFile(process.env.FLEX_PARSER_CONFIG!, "utf8")),
-          ),
+          profile: process.env.FLEX_PARSER_CONFIG
+            ? profileSchema.parse(
+                JSON.parse(
+                  await readFile(process.env.FLEX_PARSER_CONFIG!, "utf8"),
+                ),
+              )
+            : undefined,
         });
       await store.write(
         `${kind}-status.json`,

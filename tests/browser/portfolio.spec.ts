@@ -1,6 +1,64 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { emptyAcademics } from "../../shared/contracts";
+import { readFileSync } from "node:fs";
+import { parseFlexTranscript } from "../../server/flex-parser";
+
+for (const width of [375, 1440])
+  test(`populated transcript and in-progress term at ${width}px`, async ({
+    page,
+  }) => {
+    const record = parseFlexTranscript(
+      readFileSync(
+        new URL("../fixtures/flex-synthetic.html", import.meta.url),
+        "utf8",
+      ),
+    );
+    await page.setViewportSize({ width, height: 1000 });
+    await page.route("**/api/public/projects", (r) =>
+      r.fulfill({ json: { projects: [], lastUpdated: null, stale: true } }),
+    );
+    await page.route("**/api/public/academics", (r) =>
+      r.fulfill({
+        json: {
+          ...record,
+          semesters: record.semesters.map((s, i) => ({ ...s, key: `s${i}` })),
+          provenance: "owner-provided",
+          lastSuccessfulSync: null,
+          recordImportedAt: "2026-10-25T00:00:00Z",
+          stale: true,
+        },
+      }),
+    );
+    await page.goto("/#academics");
+    await expect(
+      page.getByText("Owner-provided transcript · live sync pending"),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("cell", { name: "Synthetic Course 1", exact: true }),
+    ).toBeVisible();
+    await page.getByLabel("Semester", { exact: true }).selectOption("s2");
+    await expect(page.getByText("In progress", { exact: true })).toBeVisible();
+    await expect(
+      page.getByRole("cell", { name: "I · In progress", exact: true }),
+    ).toHaveCount(9);
+    await expect(page.locator(".semester-heading")).not.toContainText("0.00");
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    expect(
+      (
+        await new AxeBuilder({ page })
+          .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+          .analyze()
+      ).violations,
+    ).toEqual([]);
+    await page
+      .locator("#academics")
+      .screenshot({ path: `test-results/academic-${width}.png` });
+  });
 
 for (const width of [375, 768, 1440])
   test(`homepage, navigation and accessibility at ${width}px`, async ({

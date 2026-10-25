@@ -38,11 +38,12 @@ export function createApi(store: Store, env: NodeJS.ProcessEnv = process.env) {
               ? "saved"
               : "fresh"
             : "unavailable",
-          academics: academics.lastSuccessfulSync
-            ? academics.stale
-              ? "saved"
-              : "fresh"
-            : "unavailable",
+          academics:
+            academics.lastSuccessfulSync || academics.recordImportedAt
+              ? academics.stale
+                ? "saved"
+                : "fresh"
+              : "unavailable",
         });
       }
       return reply(404, { error: "Not found" });

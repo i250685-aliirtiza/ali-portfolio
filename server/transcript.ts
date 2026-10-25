@@ -11,9 +11,10 @@ import {
 } from "../shared/contracts.js";
 import type { Store } from "./cache.js";
 import { workerStatusSchema } from "./schedule.js";
+import { parseFlexTranscript } from "./flex-parser.js";
 
-// No production DOM profile ships: the real FLEX transcript has not been inspected.
-// A reviewed profile is created from an authorized capture, never guessed from StudentMarks.
+// Optional selector profiles support explicitly reviewed alternative formats.
+// The default collector uses the actual FLEX layout in flex-parser.ts.
 export const profileSchema = z
   .object({
     evidenceSha256: z.string().regex(/^[a-f0-9]{64}$/),
@@ -123,9 +124,18 @@ export async function academicsView(
   const allow = (field: AcademicField) => policy.fields.includes(field);
   return academicsSchema.parse({
     cgpa: allow("cgpa") ? cache.data.cgpa : 2.43,
-    provenance: allow("cgpa") ? "verified" : "self-reported",
-    lastSuccessfulSync: cache.lastSuccessfulSync,
+    provenance: allow("cgpa")
+      ? cache.source === "owner-capture"
+        ? "owner-provided"
+        : "verified"
+      : "self-reported",
+    lastSuccessfulSync:
+      cache.source === "owner-capture" ? null : cache.lastSuccessfulSync,
+    ...(cache.source === "owner-capture"
+      ? { recordImportedAt: cache.lastSuccessfulSync }
+      : {}),
     stale:
+      cache.source === "owner-capture" ||
       status?.result === "failed" ||
       now - Date.parse(cache.lastSuccessfulSync) > 24 * 60 * 60 * 1000,
     semesters: cache.data.semesters
@@ -133,6 +143,8 @@ export async function academicsView(
         key: `semester-${i + 1}`,
         ...(allow("semesterLabel") ? { label: s.label } : {}),
         ...(allow("sgpa") ? { sgpa: s.sgpa } : {}),
+        ...(allow("cgpa") && s.cgpa !== undefined ? { cgpa: s.cgpa } : {}),
+        ...(allow("sgpa") && s.status ? { status: s.status } : {}),
         courses: s.courses
           .map((c) => ({
             ...(allow("courseCode") ? { code: c.code } : {}),
@@ -153,7 +165,7 @@ export async function academicsView(
 
 export async function syncTranscript(
   store: Store,
-  config: { url: string; cookie: string; profile: Profile },
+  config: { url: string; cookie: string; profile?: Profile },
   fetcher: typeof fetch = fetch,
   now = Date.now(),
 ) {
@@ -166,9 +178,11 @@ export async function syncTranscript(
     /studentmarks|login|signin/i.test(url.pathname)
   )
     throw new Error("transcript_invalid_endpoint");
+  if (!config.profile && (url.pathname !== "/Student/Transcript" || url.search))
+    throw new Error("transcript_invalid_endpoint");
   if (!config.cookie || /[\r\n]/.test(config.cookie))
     throw new Error("transcript_missing_session");
-  profileSchema.parse(config.profile);
+  if (config.profile) profileSchema.parse(config.profile);
   const response = await fetcher(url, {
     headers: { Cookie: config.cookie, Accept: "text/html" },
     redirect: "manual",
@@ -202,13 +216,28 @@ export async function syncTranscript(
   } finally {
     await reader.cancel();
   }
-  const data = parseTranscript(
-    Buffer.concat(chunks).toString("utf8"),
-    config.profile,
-  );
+  const html = Buffer.concat(chunks).toString("utf8");
+  const data = config.profile
+    ? parseTranscript(html, config.profile)
+    : parseFlexTranscript(html);
+  const previous = await store.read("transcript.json", transcriptCacheSchema);
+  if (
+    previous &&
+    previous.data.semesters.some((old) => {
+      const current = data.semesters.find((s) => s.label === old.label);
+      return (
+        !current ||
+        old.courses.some(
+          (c) => !current.courses.some((next) => next.code === c.code),
+        )
+      );
+    })
+  )
+    throw new Error("transcript_history_missing_review_required");
   const snapshot = transcriptCacheSchema.parse({
     data,
     lastSuccessfulSync: new Date(now).toISOString(),
+    source: "flex",
   });
   await store.write("transcript.json", snapshot, transcriptCacheSchema);
   return snapshot;

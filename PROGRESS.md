@@ -24,3 +24,13 @@
 ## Resume
 
 Workspace: `D:/Portfolio/ali-portfolio`. Node 24.18.0; npm 11.16.0. CLI installed at `C:/Program Files/GitHub CLI/gh.exe`. Runtime caches and screenshots are ignored. Use deployment preflight before changing the VM; compare watcher states before/after. Do not mark the project complete until public deployment and verification are evidenced.
+
+## Deployment / transcript work — 26 October 2026
+
+- Oracle SSH preflight completed. Ubuntu 24.04, x86_64, approximately 466 MB available RAM at baseline. Existing Node 20 runtime left unchanged.
+- Baseline: FLEX-WATCHER running/enabled, main PID 17956. CP-WATCHER timer active/enabled; its one-shot service inactive with exit status 0. Baseline saved privately on the VM.
+- Installed only Nginx and nginx-common (no upgrades). Installed separate Node 24.18.0 under portfolio paths after verifying the official SHA-256 checksum. Existing watcher states unchanged.
+- Added and persisted only an inbound TCP-80 accept rule; preserved the prior firewall rules and saved a private backup. Nginx local HTTP responds 200. External HTTP timed out before reaching the host; narrow Oracle security-list/NSG ingress action requested.
+- Implemented the actual `/Student/Transcript` parser from the owner's redacted capture. All three semesters and 26 course entries parsed. In-progress grades are explicit and unfinished SGPA is null. No actual transcript or raw authenticated HTML committed.
+- Owner explicitly approved all academic allowlist fields. Imported snapshot provenance remains owner-provided until a successful authenticated fetch. The dedicated root-owned 0600 portfolio environment file is ready; authorized cookie configuration requested securely.
+- Tests including external redacted capture: 50 passed before final missing-history guard. Populated dashboard browser/accessibility checks pass at 375/1440px; all 7 browser tests pass. Final checks rerun before publishing.

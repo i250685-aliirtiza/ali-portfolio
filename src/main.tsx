@@ -323,7 +323,9 @@ function AcademicRecord({
           <p className="provenance">
             {data.provenance === "self-reported"
               ? "Self-reported · awaiting transcript sync"
-              : "Verified transcript record"}
+              : data.provenance === "owner-provided"
+                ? "Owner-provided transcript · live sync pending"
+                : "Verified transcript record"}
           </p>
           <div className="academic-school">
             <strong>BS Computer Science</strong>
@@ -357,12 +359,23 @@ function AcademicRecord({
                     SGPA{" "}
                     <strong>
                       {semester.sgpa === null
-                        ? "Not available"
+                        ? semester.status === "in-progress"
+                          ? "In progress"
+                          : "Not available"
                         : semester.sgpa.toFixed(2)}
                     </strong>
                   </p>
                 )}
               </div>
+              {semester.cgpa !== undefined && (
+                <p className="semester-cgpa">
+                  Cumulative GPA after this term:{" "}
+                  <strong>{semester.cgpa.toFixed(2)}</strong>
+                  {semester.status === "in-progress"
+                    ? " · carried forward while results are pending"
+                    : ""}
+                </p>
+              )}
               {visible.length > 0 && (
                 <div className="table-wrap">
                   <table>
@@ -383,7 +396,16 @@ function AcademicRecord({
                       {semester.courses.map((c, i) => (
                         <tr key={i}>
                           {visible.map(([key]) => (
-                            <td key={key}>{c[key] ?? "—"}</td>
+                            <td key={key}>
+                              {key === "grade" &&
+                              ["I", "IP"].includes(c.grade ?? "") ? (
+                                <span className="grade-pending">
+                                  {c.grade} · In progress
+                                </span>
+                              ) : (
+                                (c[key] ?? "—")
+                              )}
+                            </td>
                           ))}
                         </tr>
                       ))}
@@ -409,7 +431,9 @@ function AcademicRecord({
           <p className="sync-note">
             {data.lastSuccessfulSync
               ? `${data.stale || failed ? "Saved academic record · " : ""}Last successful academic sync: ${date(data.lastSuccessfulSync)}`
-              : "No official transcript synchronized yet."}
+              : data.recordImportedAt
+                ? `Owner-provided record imported ${date(data.recordImportedAt)} · Live sync pending.`
+                : "No official transcript synchronized yet."}
           </p>
         </div>
       </div>

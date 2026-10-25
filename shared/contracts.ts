@@ -15,6 +15,8 @@ export const semesterSchema = z.object({
   label,
   order: z.number().int().nonnegative(),
   sgpa: z.number().min(0).max(4).nullable(),
+  cgpa: z.number().min(0).max(4).optional(),
+  status: z.enum(["completed", "in-progress"]).optional(),
   courses: z.array(courseSchema).min(1).max(50),
 });
 export const transcriptSchema = z
@@ -35,6 +37,7 @@ export const transcriptSchema = z
 export const transcriptCacheSchema = z.object({
   data: transcriptSchema,
   lastSuccessfulSync: stamp,
+  source: z.enum(["flex", "owner-capture"]).optional(),
 });
 export const projectSchema = z.object({
   name: label,
@@ -65,6 +68,8 @@ export const publicSemesterSchema = z.object({
   key: z.string(),
   label: label.optional(),
   sgpa: z.number().min(0).max(4).nullable().optional(),
+  cgpa: z.number().min(0).max(4).optional(),
+  status: z.enum(["completed", "in-progress"]).optional(),
   courses: z.array(
     z.object({
       code: label.optional(),
@@ -76,9 +81,10 @@ export const publicSemesterSchema = z.object({
 });
 export const academicsSchema = z.object({
   cgpa: z.number().min(0).max(4),
-  provenance: z.enum(["self-reported", "verified"]),
+  provenance: z.enum(["self-reported", "verified", "owner-provided"]),
   semesters: z.array(publicSemesterSchema),
   lastSuccessfulSync: stamp.nullable(),
+  recordImportedAt: stamp.optional(),
   stale: z.boolean(),
 });
 export type Academics = z.infer<typeof academicsSchema>;

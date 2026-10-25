@@ -2,7 +2,7 @@
 
 A restrained, responsive React portfolio with a cached GitHub feed and a private-by-default academic transcript boundary. Built for an isolated service on an existing Oracle Ubuntu VM.
 
-**Transcript status: AWAITING AUTHORIZED SESSION / REAL-PAGE VALIDATION.** No production FLEX endpoint or DOM layout is assumed. Synthetic test records are not official grades. The public default is the owner-reported CGPA of 2.43 and no semester details.
+**Transcript integration:** The actual /Student/Transcript layout is validated against an authorized redacted capture. Imported records are labeled owner-provided until a successful authenticated refresh. In-progress semesters do not display a zero SGPA. Only synthetic fixtures are committed. Live refresh requires a valid authorized session.
 
 ## Develop and verify
 
@@ -50,9 +50,9 @@ Production configuration is `/etc/ali-portfolio.env`, root-owned mode `0600`, lo
 | `GITHUB_TOKEN`             | Optional least-privilege server-side GitHub API credential                                  |
 | `PUBLIC_ACADEMICS_ENABLED` | `false` until explicit owner approval                                                       |
 | `PUBLIC_ACADEMIC_FIELDS`   | Empty by default; approved comma-separated names listed below                               |
-| `FLEX_TRANSCRIPT_URL`      | Authorized exact HTTPS transcript URL; no assumed endpoint                                  |
+| `FLEX_TRANSCRIPT_URL`      | https://flexstudent.nu.edu.pk/Student/Transcript; no query parameters                       |
 | `FLEX_COOKIE`              | Owner’s manually obtained full cookie header; protected configuration only                  |
-| `FLEX_PARSER_CONFIG`       | Absolute path to a privately reviewed selector profile                                      |
+| `FLEX_PARSER_CONFIG`       | Optional alternate reviewed profile; empty uses the built-in FLEX parser                    |
 
 Approved field names: `cgpa,semesterLabel,sgpa,courseCode,courseTitle,grade,credits`. Each is opt-in; source-specific identifiers never appear in the public schema. CGPA stays explicitly self-reported if its verified value is not approved.
 

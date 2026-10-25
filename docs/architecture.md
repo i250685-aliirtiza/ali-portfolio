@@ -15,3 +15,9 @@ Each worker has a process lock, persistent failure counter, bounded exponential 
 This version expects a complete transcript in one authorized HTML response. A real multi-page or AJAX transcript needs a reviewed collector extension before enabling it. There is intentionally no fabricated default FLEX profile. The parser accepts explicitly mapped formats and rejects missing/ambiguous structures, but only real-page validation can establish source correctness. It does not send email alerts; private worker status and journald are the maintenance signals.
 
 Nginx and systemd templates must be tested on the actual Ubuntu host. They are not proof of deployment by themselves. A domain-specific canonical URL and sitemap are added after the public hostname is known.
+
+## Reviewed FLEX implementation (26 October 2026)
+
+The initial pending adapter is now completed against the authorized redacted capture. `server/flex-parser.ts` recognizes the actual transcript heading, semester panels, labeled GPA summaries and complete course tables. It validates closing markup, unique term ordering, column meanings and every row. The generic selector parser supports reviewed alternate formats. The built-in collector strictly uses `/Student/Transcript` with no query string.
+
+Private snapshots distinguish owner-provided captures from authenticated FLEX responses. Public projections expose an import timestamp for captures and a successful-sync timestamp only for authenticated refreshes. The owner approved all academic allowlist fields; identifiers and unrelated columns remain excluded.
