@@ -1,0 +1,26 @@
+[Unit]
+Description=Ali portfolio public read-only API
+After=network.target
+StartLimitIntervalSec=120
+StartLimitBurst=5
+[Service]
+Type=simple
+User=ali-portfolio
+Group=ali-portfolio
+WorkingDirectory=/opt/ali-portfolio/current
+EnvironmentFile=/etc/ali-portfolio.env
+ExecStart=/opt/ali-portfolio/runtime/bin/node build/server/index.js
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/var/lib/ali-portfolio
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+MemoryMax=192M
+TasksMax=32
+[Install]
+WantedBy=multi-user.target

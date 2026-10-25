@@ -1,0 +1,9 @@
+[Unit]
+Description=Twice-daily portfolio transcript refresh
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=12h
+RandomizedDelaySec=10min
+Unit=ali-portfolio-transcript-sync.service
+[Install]
+WantedBy=timers.target

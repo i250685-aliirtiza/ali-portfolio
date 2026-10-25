@@ -1,0 +1,9 @@
+[Unit]
+Description=Hourly portfolio GitHub refresh
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=1h
+RandomizedDelaySec=3min
+Unit=ali-portfolio-github-sync.service
+[Install]
+WantedBy=timers.target

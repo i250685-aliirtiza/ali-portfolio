@@ -1,0 +1,42 @@
+{
+  "name": "ali-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build && tsc -p tsconfig.server.json",
+    "typecheck": "tsc --noEmit",
+    "start": "node build/server/index.js",
+    "sync:github": "tsx server/worker.ts github",
+    "sync:transcript": "tsx server/worker.ts transcript",
+    "test": "vitest run",
+    "test:browser": "playwright test",
+    "scan": "node scripts/security-scan.mjs",
+    "lint": "prettier --check src server shared tests scripts *.ts *.json"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "@fontsource/ibm-plex-sans": "5.3.0",
+    "cheerio": "1.2.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.64.1",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "prettier": "3.9.10",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vite": "8.3.5",
+    "vitest": "5.0.5"
+  }
+}

@@ -1,0 +1,17 @@
+node_modules/
+dist/
+build/
+data/*
+!data/fixtures/
+.env*
+!.env.example
+*.pem
+*.key
+*.sqlite*
+*.log
+*.bak
+captures/
+test-results/
+playwright-report/
+operator/
+coverage/
