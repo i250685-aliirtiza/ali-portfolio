@@ -90,7 +90,48 @@ for (const width of [375, 768, 1440])
       .getByRole("link", { name: "Academics" })
       .click();
     await expect(page).toHaveURL(/#academics$/);
+    if (width < 680) await page.getByRole("button", { name: "Menu" }).click();
+    await page
+      .getByRole("navigation")
+      .getByRole("link", { name: "Competitions", exact: true })
+      .click();
+    await expect(page).toHaveURL(/#competitions$/);
+    const competition = page.locator("#competitions");
+    await expect(competition.locator("article")).toHaveCount(1);
+    await expect(
+      competition.getByRole("heading", { name: "NaSCon ’26" }),
+    ).toBeVisible();
+    await expect(competition.locator("dt")).toHaveText([
+      "Bug Busters",
+      "Code Craft",
+      "C++ Face Off",
+      "Speed Programming",
+    ]);
+    await expect(competition.locator("dd")).toHaveText([
+      "Advanced to the final round",
+      "Advanced to Round 2",
+      "Participated",
+      "Participated",
+    ]);
+    await expect(competition).not.toContainText(
+      /winner|champion|podium|award|ranked/i,
+    );
+    await expect(competition.locator("img")).toHaveCount(1);
+    await competition.screenshot({
+      path: `test-results/competitions-${width}.png`,
+    });
     const work = page.locator("#work");
+    await expect(work.locator("img")).toHaveCount(3);
+    for (const img of await page
+      .locator("#work img, #competitions img")
+      .all()) {
+      await img.scrollIntoViewIfNeeded();
+      await expect(img).toHaveJSProperty("complete", true);
+      expect(
+        await img.evaluate((node: HTMLImageElement) => node.naturalWidth),
+      ).toBeGreaterThan(0);
+      expect(await img.getAttribute("alt")).toBeTruthy();
+    }
     await expect(work.locator("article")).toHaveCount(4);
     expect(
       await work

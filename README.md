@@ -4,6 +4,8 @@ A restrained, responsive React portfolio with a cached GitHub feed and a private
 
 The project showcase contains exactly four always-visible projects: Neural Network, Arcanum Editor, Tumblepop and FLEX Watcher. GitHub discovery cannot expand this allowlist. See [source review and selection policy](docs/project-showcase.md).
 
+Competitions has a dedicated navigation entry and chronological event archive, starting with the owner's NaSCon 2026 participation. See [media sources and adding events](docs/media-and-competitions.md) for typed content and replaceable image slots.
+
 **Transcript integration:** The actual /Student/Transcript layout is validated against an authorized redacted capture. Imported records are labeled owner-provided until a successful authenticated refresh. In-progress semesters do not display a zero SGPA. Only synthetic fixtures are committed. Live refresh requires a valid authorized session.
 
 ## Develop and verify

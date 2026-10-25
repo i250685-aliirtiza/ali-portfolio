@@ -359,6 +359,120 @@ button {
   flex: 1;
   min-width: 0;
 }
+.project-image {
+  margin: 0;
+  width: 100%;
+}
+.project-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 240px;
+  object-fit: contain;
+  border-radius: 3px;
+}
+.project-image figcaption,
+.competition-photographs figcaption {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: 12px;
+}
+.project-image figcaption a {
+  display: inline-block;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.project-0 .project-image img {
+  max-height: 360px;
+}
+.project-1 .project-art,
+.project-2 .project-art {
+  padding: 16px;
+  min-height: 0;
+}
+.competition-event {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 40px;
+  padding: 36px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.competition-archive {
+  display: grid;
+  gap: 24px;
+}
+.competition-copy h3 {
+  font-size: 34px;
+  margin: 10px 0;
+  letter-spacing: -0.035em;
+}
+.competition-organizer {
+  font-size: 16px;
+}
+.competition-results {
+  margin: 28px 0 0;
+}
+.competition-results > div {
+  padding: 15px 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 16px;
+}
+.competition-results dt {
+  font-weight: 500;
+}
+.competition-results dd {
+  margin: 0;
+  color: var(--muted);
+}
+.competition-photographs {
+  align-self: center;
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.competition-photographs figure {
+  margin: 0;
+}
+.competition-photographs img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.photo-placeholder {
+  aspect-ratio: 4/3;
+  background: var(--accent-soft);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  text-align: center;
+}
+@media (max-width: 960px) {
+  .competition-event {
+    gap: 24px;
+    padding: 26px;
+  }
+  .competition-results > div {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+}
+@media (max-width: 680px) {
+  .competition-event {
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+  .competition-copy h3 {
+    font-size: 30px;
+  }
+}
 .project-copy h3 {
   font-size: 27px;
   letter-spacing: -0.035em;
@@ -455,157 +569,6 @@ button {
   font-size: 35px;
   max-width: 15ch;
 }
-.network-diagram {
-  width: 100%;
-  color: var(--accent);
-}
-.diagram-label {
-  font-size: 9px;
-  letter-spacing: 0.03em;
-  text-align: center;
-}
-.computation-flow {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 30px;
-}
-.computation-flow span {
-  border: 1px solid #a7beaf;
-  background: #f8faf6;
-  border-radius: 4px;
-  padding: 15px 11px;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 12px;
-  white-space: nowrap;
-}
-.computation-flow span:nth-last-child(3) {
-  background: var(--accent);
-  color: white;
-  border-color: var(--accent);
-}
-.computation-flow i,
-.watcher-diagram i {
-  font-style: normal;
-  font-size: 13px;
-}
-.backward-flow {
-  font-size: 9px;
-  margin: 19px 0 32px;
-  text-align: center;
-  letter-spacing: 0.02em;
-}
-.arena-pair {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border: 1px solid #bbccbf;
-  border-radius: 4px;
-}
-.arena-pair > div {
-  padding: 16px 12px;
-}
-.arena-pair > div + div {
-  border-left: 1px solid #bbccbf;
-}
-.arena-pair .mono {
-  font-size: 8px;
-  display: block;
-  color: #506951;
-}
-.arena-pair strong {
-  font-weight: 400;
-  font-size: 13px;
-  display: block;
-  margin-top: 7px;
-}
-.diagram-footnote {
-  font-size: 10px;
-  text-align: center;
-  margin-top: 24px;
-  color: var(--accent);
-}
-.editor-diagram {
-  width: 100%;
-  max-width: 310px;
-}
-.editor-tabs {
-  display: flex;
-  border-bottom: 1px solid #c1cebd;
-  font-size: 9px;
-  gap: 18px;
-  color: #50634f;
-}
-.editor-tabs span {
-  padding: 7px 10px;
-}
-.editor-tabs span:first-child {
-  background: white;
-  border: 1px solid #c1cebd;
-  border-bottom: 0;
-  border-radius: 4px 4px 0 0;
-}
-.editor-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  padding: 16px 20px;
-  background: #fbfcf9;
-  border: 1px solid #d6dfd1;
-  border-top: 0;
-}
-.editor-layout > div {
-  display: grid;
-  gap: 8px;
-}
-.editor-layout span {
-  height: 3px;
-  background: #d0dacb;
-  width: 100%;
-}
-.editor-layout .marked-line {
-  background: #6d937d;
-}
-.editor-layout .short-line {
-  width: 60%;
-}
-.editor-diagram > p {
-  font-size: 8px;
-  text-align: center;
-  margin-top: 14px;
-  color: #50634f;
-}
-.game-diagram {
-  display: flex;
-  width: 100%;
-  gap: 26px;
-  justify-content: space-around;
-  align-items: center;
-}
-.tile-grid {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 3px;
-  width: 164px;
-  flex-shrink: 0;
-}
-.tile-grid span {
-  aspect-ratio: 1;
-  border: 1px solid #d7dfd0;
-  border-radius: 1px;
-}
-.tile-grid .solid {
-  background: #81987b;
-  border-color: #81987b;
-}
-.game-systems {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  font-size: 8px;
-  line-height: 1.5;
-  color: #50634f;
-}
 .project-3 {
   grid-column: 1/-1;
   display: grid;
@@ -650,22 +613,6 @@ button {
   }
   .project-0 .project-art {
     padding: 20px;
-  }
-  .computation-flow {
-    gap: 5px;
-  }
-  .computation-flow span {
-    font-size: 10px;
-    padding: 12px 8px;
-  }
-  .game-diagram {
-    gap: 16px;
-  }
-  .tile-grid {
-    width: 120px;
-  }
-  .game-systems {
-    font-size: 7px;
   }
   .project-3 {
     grid-template-columns: 220px 1fr;
@@ -733,28 +680,6 @@ button {
     gap: 9px;
   }
   .project-updated {
-    font-size: 8px;
-  }
-  .computation-flow {
-    gap: 6px;
-  }
-  .computation-flow span {
-    padding: 12px 8px;
-    font-size: 10px;
-  }
-  .arena-pair > div {
-    padding: 14px 10px;
-  }
-  .arena-pair strong {
-    font-size: 12px;
-  }
-  .game-diagram {
-    gap: 18px;
-  }
-  .tile-grid {
-    width: 132px;
-  }
-  .game-systems {
     font-size: 8px;
   }
   .project-3 .project-art {

@@ -14,6 +14,8 @@ import {
   type Projects,
 } from "../shared/contracts";
 import { caseStudies, featured, notes, milestones } from "../shared/content";
+import { projectImages } from "../shared/media";
+import { Competitions } from "./Competitions";
 import "./style.css";
 
 const github = `https://github.com/${owner}`;
@@ -100,6 +102,7 @@ function Header() {
     ["Work", "work"],
     ["Academics", "academics"],
     ["CP", "cp"],
+    ["Competitions", "competitions"],
     ["About", "about"],
     ["Contact", "contact"],
   ];
@@ -137,82 +140,28 @@ function Header() {
   );
 }
 function ProjectDiagram({ name }: { name: (typeof featured)[number] }) {
-  if (name === "Neural-Network")
+  const media = projectImages[name];
+  if (media)
     return (
-      <div className="network-diagram" aria-hidden="true">
-        <div className="diagram-label mono">
-          VALUES FORWARD · GRADIENTS BACKWARD
-        </div>
-        <div className="computation-flow">
-          <span>x</span>
-          <i>→</i>
-          <span>w · x + b</span>
-          <i>→</i>
-          <span>tanh</span>
-          <i>→</i>
-          <span>L</span>
-        </div>
-        <div className="backward-flow mono">← CHAIN RULE / BACKPROPAGATION</div>
-        <div className="arena-pair">
-          <div>
-            <span className="mono">PERSISTENT ARENA</span>
-            <strong>Weights + biases</strong>
-          </div>
-          <div>
-            <span className="mono">TEMPORARY ARENA</span>
-            <strong>Computation graph</strong>
-          </div>
-        </div>
-        <p className="diagram-footnote mono">Neuron → Layer → MLP</p>
-      </div>
-    );
-  if (name === "Blackwood-Hargrove-Editor")
-    return (
-      <div className="editor-diagram" aria-hidden="true">
-        <div className="editor-tabs mono">
-          <span>Document 01</span>
-          <span>Document 02</span>
-        </div>
-        <div className="editor-layout">
-          <div>
-            <span />
-            <span />
-            <span className="marked-line" />
-            <span />
-          </div>
-          <div>
-            <span />
-            <span />
-            <span />
-            <span className="short-line" />
-          </div>
-        </div>
-        <p className="mono">BUFFER → LINES → COLUMNS → PAGES</p>
-      </div>
-    );
-  if (name === "PF_Project")
-    return (
-      <div className="game-diagram" aria-hidden="true">
-        <div className="tile-grid">
-          {Array.from({ length: 40 }, (_, i) => (
-            <span
-              key={i}
-              className={
-                [
-                  4, 5, 12, 13, 24, 25, 26, 32, 33, 34, 35, 36, 37, 38, 39,
-                ].includes(i)
-                  ? "solid"
-                  : ""
-              }
-            />
-          ))}
-        </div>
-        <div className="game-systems mono">
-          <span>INPUT & MOVEMENT</span>
-          <span>GRAVITY & COLLISION</span>
-          <span>SPRITE ANIMATION</span>
-        </div>
-      </div>
+      <figure className="project-image">
+        <img
+          src={media.src}
+          alt={media.alt}
+          width={media.width}
+          height={media.height}
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>
+          {media.caption}
+          {media.reference && (
+            <>
+              {" "}
+              <a href={media.reference.url}>{media.reference.label}</a>
+            </>
+          )}
+        </figcaption>
+      </figure>
     );
   return (
     <div className="watcher-diagram" aria-hidden="true">
@@ -610,10 +559,11 @@ function App() {
             </a>
           </div>
         </section>
+        <Competitions />
         <section id="about" className="section shell about-section">
           <div>
             <p className="eyebrow">
-              <span>05</span> / BEYOND CODE
+              <span>06</span> / BEYOND CODE
             </p>
             <h2>
               Away from
@@ -634,7 +584,7 @@ function App() {
         </section>
         <section className="section shell notes-section">
           <SectionTitle
-            number="06"
+            number="07"
             label="NOTES / LEARNING LOG"
             title="Room for reflection."
           />

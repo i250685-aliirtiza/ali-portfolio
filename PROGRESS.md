@@ -52,3 +52,9 @@ Workspace: `D:/Portfolio/ali-portfolio`. Node 24.18.0; npm 11.16.0. CLI installe
 - Featured neural-network card, paired editor/game cards and supporting watcher card remain visible on metadata outages. Shared cache validation removes unapproved repositories and duplicates from older snapshots.
 - Formatting, type-check/build, 58 unit tests with the private capture, and seven browser tests passed. Visual review and accessibility checks completed at 375/768/1440px. All four repository links returned HTTP 200. Dependency audit found zero vulnerabilities.
 - Unauthenticated GitHub rate limiting preserved the saved cache. A fresh authenticated fetch into isolated local verification state returned exactly the four approved repositories in order; no credential persisted.
+
+## Project imagery and Competitions — 26 October 2026
+
+- Added original neural-network SVG, owner's editor screenshot and attributed web-sourced original Tumble Pop reference. Local optimized image slots preserve proportions; exact four-project order remains fixed.
+- Added top-level Competitions navigation, typed chronological event data and one NaSCon 2026 card with the four owner-provided outcomes. Used the supplied real photograph, optimized to 38 KB with metadata stripped. No invented date, ranking or award.
+- Build and formatting pass. 59 unit tests pass with the external private transcript fixture; seven browser tests cover navigation, image loading, exact results, four projects, transcript behavior, accessibility and 375/768/1440 layouts. Desktop/mobile screenshots visually reviewed. Source attribution and content maintenance documented.
