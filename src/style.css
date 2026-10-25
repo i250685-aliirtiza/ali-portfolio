@@ -882,6 +882,18 @@ th {
   line-height: 1.8;
   max-width: 60ch;
 }
+.badminton-photo {
+  margin: 0 0 28px;
+}
+.badminton-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+.project-3 .project-image img {
+  max-height: 320px;
+}
 .cp-topics {
   display: flex;
   gap: 20px;

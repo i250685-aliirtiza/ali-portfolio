@@ -11,6 +11,13 @@ export type EditorialImage = {
 export const projectImages: Partial<
   Record<import("./content.js").FeaturedProject, EditorialImage>
 > = {
+  "FLEX-WATCHER": {
+    src: "/images/flex.webp",
+    width: 480,
+    height: 1040,
+    alt: "Phone lock screen showing a FLEX marks update email notification, with the email address obscured.",
+    caption: "FLEX marks notification · supplied screenshot.",
+  },
   "Neural-Network": {
     src: "/images/neural-network.svg",
     width: 800,

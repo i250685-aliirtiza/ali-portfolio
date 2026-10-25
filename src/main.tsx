@@ -108,8 +108,8 @@ function Header() {
   ];
   return (
     <header className="shell header">
-      <a className="wordmark" href="#top" aria-label="Ali Irtiza home">
-        ali.irtiza<span> /</span>
+      <a className="wordmark" href="#top" aria-label="Ali Irtiza Ahmed home">
+        ali.irtiza.ahmed<span> /</span>
       </a>
       <button
         className="menu-toggle"
@@ -420,7 +420,7 @@ function App() {
               ISLAMABAD
             </p>
             <h1 id="hero-title">
-              Ali Irtiza<span>.</span>
+              Ali Irtiza Ahmed<span>.</span>
             </h1>
             <p className="hero-intro">
               I build useful software, study algorithms,
@@ -572,6 +572,16 @@ function App() {
             </h2>
           </div>
           <div className="about-copy">
+            <figure className="badminton-photo">
+              <img
+                src="/images/badminton.webp"
+                width="1200"
+                height="900"
+                alt="Four school students seated together outdoors with badminton trophies."
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
             <p className="large-copy">
               Badminton was a big part of my school years.
             </p>
@@ -579,7 +589,9 @@ function App() {
               I enjoyed competing and getting better at it. It’s an interest
               that has stayed with me alongside computer science.
             </p>
-            <span className="mono about-signature">ALI IRTIZA / ISLAMABAD</span>
+            <span className="mono about-signature">
+              ALI IRTIZA AHMED / ISLAMABAD
+            </span>
           </div>
         </section>
         <section className="section shell notes-section">
@@ -621,7 +633,7 @@ function App() {
       </main>
       <footer className="shell footer">
         <a className="wordmark" href="#top">
-          ali.irtiza<span> /</span>
+          ali.irtiza.ahmed<span> /</span>
         </a>
         <p>Made with care. Still learning.</p>
         <a href="#top">Back to top ↑</a>

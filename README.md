@@ -1,4 +1,4 @@
-# Ali Irtiza — portfolio
+# Ali Irtiza Ahmed — portfolio
 
 A restrained, responsive React portfolio with a cached GitHub feed and a private-by-default academic transcript boundary. Built for an isolated service on an existing Oracle Ubuntu VM.
 
@@ -76,3 +76,4 @@ Renew a FLEX session with `sudoedit /etc/ali-portfolio.env`, never via chat or c
 Edit `shared/content.ts` for project ordering, case studies, genuinely authored notes and verified milestones. Add an approved contact link/photo only when supplied. No analytics, external font requests or fabricated achievements are included.
 
 See `PROGRESS.md` for verified execution results and remaining external gates.
+

@@ -58,3 +58,9 @@ Workspace: `D:/Portfolio/ali-portfolio`. Node 24.18.0; npm 11.16.0. CLI installe
 - Added original neural-network SVG, owner's editor screenshot and attributed web-sourced original Tumble Pop reference. Local optimized image slots preserve proportions; exact four-project order remains fixed.
 - Added top-level Competitions navigation, typed chronological event data and one NaSCon 2026 card with the four owner-provided outcomes. Used the supplied real photograph, optimized to 38 KB with metadata stripped. No invented date, ranking or award.
 - Build and formatting pass. 59 unit tests pass with the external private transcript fixture; seven browser tests cover navigation, image loading, exact results, four projects, transcript behavior, accessibility and 375/768/1440 layouts. Desktop/mobile screenshots visually reviewed. Source attribution and content maintenance documented.
+
+## Personal photographs and full name — 26 October 2026
+
+- Added the owner's badminton photograph to Beyond Code and supplied notification screenshot to FLEX Watcher. Both are local WebP assets with preserved proportions and no copied EXIF metadata; no awards or rankings were inferred from the photograph.
+- Corrected the visible name, wordmarks, accessible home label and page/social metadata to Ali Irtiza Ahmed.
+- Production build and 51 standard unit tests pass. Responsive browser checks include loading all project and personal images.

@@ -76,7 +76,7 @@ for (const width of [375, 768, 1440])
     await page.goto("/");
     await page.evaluate(() => document.fonts.ready);
     await expect(
-      page.getByRole("heading", { name: "Ali Irtiza." }),
+      page.getByRole("heading", { name: "Ali Irtiza Ahmed." }),
     ).toBeVisible();
     await expect(
       page.getByText("Self-reported · awaiting transcript sync"),
@@ -121,9 +121,9 @@ for (const width of [375, 768, 1440])
       path: `test-results/competitions-${width}.png`,
     });
     const work = page.locator("#work");
-    await expect(work.locator("img")).toHaveCount(3);
+    await expect(work.locator("img")).toHaveCount(4);
     for (const img of await page
-      .locator("#work img, #competitions img")
+      .locator("#work img, #competitions img, #about img")
       .all()) {
       await img.scrollIntoViewIfNeeded();
       await expect(img).toHaveJSProperty("complete", true);

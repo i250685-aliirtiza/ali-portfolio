@@ -14,3 +14,7 @@ Project image sources, alt text, dimensions and captions live in `shared/media.t
 Append a `CompetitionEvent` to `shared/competitions.ts`. Include the event year, organizer and individual category results. Use an exact ISO date only when known. Optional photographs have local paths, dimensions and descriptive alt text. Optional commentary, official reference links and earned distinctions are supported; omit unsupported fields. Sorting uses descending year then known date and preserves input order for ties. A neutral reserved area renders when an event has no photograph.
 
 NaSCon 2026 outcomes and event context are owner-provided. No exact date, awards, ranking or wins are asserted. All four categories belong to one event. The supplied photograph replaces the initially requested placeholder.
+
+## Additional owner-supplied images
+
+`badminton.webp` is the owner's school badminton photograph (1200 × 900). `flex.webp` is the supplied notification screenshot (480 × 1040), retaining the owner's obscured email address. Both preserve aspect ratio and omit EXIF metadata. No competition result is inferred from the photograph.
