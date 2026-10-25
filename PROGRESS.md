@@ -16,7 +16,8 @@
 
 ## Remaining external gates
 
-- Publish the newly created repository and verify the remote SHA after final local checks.
+- Published https://github.com/i250685-aliirtiza/ali-portfolio; initial implementation remote SHA verified as `ede2db0ab60a344d4a53eafeea262fe6a046c98d`.
+- GitHub Ubuntu CI passed all checks, including browser/accessibility tests: https://github.com/i250685-aliirtiza/ali-portfolio/actions/runs/40223159176. Local formatting lint and Git-history secret scan also pass.
 - Oracle public IP/hostname, SSH user, authorized local key path or agent, optional domain. No VM connection or public launch has occurred yet.
 - Authorized real transcript URL/capture/session and explicit approval of published fields. No real transcript validation claimed. Default details remain disabled.
 
