@@ -622,12 +622,23 @@ function App() {
           <div className="shell contact-inner">
             <div>
               <p className="eyebrow">KEEP IN TOUCH</p>
-              <h2>Start with the code.</h2>
-              <p>My projects and ongoing experiments live on GitHub.</p>
+              <h2>Let’s connect.</h2>
+              <p>Explore my work, connect on LinkedIn, or send me an email.</p>
             </div>
-            <a className="button primary" href={github}>
-              Find me on GitHub <Arrow diagonal />
-            </a>
+            <div className="contact-links">
+              <a className="button primary" href={github}>
+                Find me on GitHub <Arrow diagonal />
+              </a>
+              <a
+                className="text-link"
+                href="https://www.linkedin.com/in/ali-irtiza-b208ba21b/"
+              >
+                LinkedIn <Arrow diagonal />
+              </a>
+              <a className="text-link" href="mailto:i250685@isb.nu.edu.pk">
+                i250685@isb.nu.edu.pk <Arrow diagonal />
+              </a>
+            </div>
           </div>
         </section>
       </main>

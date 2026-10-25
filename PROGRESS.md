@@ -64,3 +64,7 @@ Workspace: `D:/Portfolio/ali-portfolio`. Node 24.18.0; npm 11.16.0. CLI installe
 - Added the owner's badminton photograph to Beyond Code and supplied notification screenshot to FLEX Watcher. Both are local WebP assets with preserved proportions and no copied EXIF metadata; no awards or rankings were inferred from the photograph.
 - Corrected the visible name, wordmarks, accessible home label and page/social metadata to Ali Irtiza Ahmed.
 - Production build and 51 standard unit tests pass. Responsive browser checks include loading all project and personal images.
+
+## Contact links — 26 October 2026
+
+Added the owner-provided LinkedIn profile and explicitly approved public contact email to the Contact section, alongside GitHub. Email uses a mailto link; no form or message sending is introduced.

@@ -951,6 +951,15 @@ th {
   background: var(--accent-soft);
   border-block: 1px solid #dae2d9;
 }
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+.contact-links .text-link {
+  overflow-wrap: anywhere;
+}
 .contact-inner {
   display: flex;
   align-items: center;
