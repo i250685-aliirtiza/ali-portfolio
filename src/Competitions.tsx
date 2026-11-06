@@ -21,7 +21,7 @@ export function Competitions() {
       <div className="competition-archive">
         {newestFirst(competitions).map((event) => (
           <article
-            className="competition-event"
+            className="competition-event reveal"
             key={event.id}
             aria-labelledby={event.id}
           >
