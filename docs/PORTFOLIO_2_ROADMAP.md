@@ -20,11 +20,11 @@ Status: **COMPLETED**
 | 07 | Arcanum Editor & Tumblepop showcase | COMPLETED | `PENDING` | `docs/evidence/phase-07/` |
 | 08 | FLEX Watcher interactive demonstration | COMPLETED | PENDING | `docs/evidence/phase-08/` |
 | 09 | Content, competitions, about and contact | COMPLETED | PENDING | `docs/evidence/phase-09/` |
-| 10 | Academics dashboard and API experience | NOT STARTED | — | — |
-| 11 | Complete mobile and cross-browser polish | NOT STARTED | — | — |
-| 12 | Performance and animation optimization | NOT STARTED | — | — |
-| 13 | SEO, social previews and professional polish | NOT STARTED | — | — |
-| 14 | Security, reliability and automated test expansion | NOT STARTED | — | — |
+| 10 | Academics dashboard and API experience | COMPLETED | 2b4abe7 | `docs/evidence/phase-10/` |
+| 11 | Complete mobile and cross-browser polish | COMPLETED | 6956423 | `docs/evidence/phase-11/` |
+| 12 | Performance and animation optimization | COMPLETED | 6956423 | `docs/evidence/phase-12/` |
+| 13 | SEO, social previews and professional polish | COMPLETED | cbb1d47 | `docs/evidence/phase-13/` |
+| 14 | Security, reliability and automated test expansion | BLOCKED | — | — |
 | 15 | Production deployment to Oracle VM | NOT STARTED | — | — |
 | 16 | Final production boss test | NOT STARTED | — | — |
 
@@ -452,3 +452,14 @@ Every phase must re-run typecheck/build, unit tests and browser tests as applica
 - Branch: `codex/portfolio-phase-00`
 - Push: `origin/codex/portfolio-phase-00`
 
+
+## Phases 10–13 verification record
+
+- Phase 10 clarified semester course counts, in-progress status, and live sync messaging. Build, unit tests, and browser tests passed.
+- Phase 11 added a 320px reduced-motion Playwright check; all 8 browser tests passed.
+- Phase 12 retained transform/opacity-only motion and lazy-loaded media; build and browser checks passed.
+- Phase 13 updated canonical, Open Graph, Twitter card, and production URL metadata.
+
+## Phase 14 blocker
+
+`npm run scan` could not complete its git-history scan in this checkout and returned a non-clean result. No security commit was made without a reliable history result. Production deployment and the final production boss test remain pending for Phases 15–16.
