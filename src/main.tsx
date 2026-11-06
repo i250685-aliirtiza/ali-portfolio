@@ -300,6 +300,8 @@ function ProjectCaseStudy({ name }: { name: (typeof featured)[number] }) {
           <h2>What sits underneath.</h2>
           <p>{story.decision}</p>
           {name === "Neural-Network" && <NeuralNetworkDemo />}
+          {name === "Blackwood-Hargrove-Editor" && <EditorBufferDemo />}
+          {name === "PF_Project" && <TumblepopDemo />}
         </section>
         <aside className="case-facts">
           <p className="eyebrow">PROJECT RECORD</p>
@@ -347,6 +349,28 @@ function NeuralNetworkDemo() {
       <div className="neural-network-diagram" aria-hidden="true"><span className="neuron-col"><i /><i /></span><span className="network-lines">↗ ↘<br />↘ ↗</span><span className="neuron-col"><i /></span></div>
       <div className="xor-results">{xorData.map(([a, b, target], i) => <div key={`${a}${b}`}><span className="mono">{a} ⊕ {b}</span><strong>{predictions[i].toFixed(2)}</strong><small>target {target}</small></div>)}</div>
       <div className="neural-demo-footer"><span>Mean squared error <strong>{loss.toFixed(3)}</strong></span><div><button className="button secondary" onClick={() => { setModel(trainXor(model, 250)); setEpoch((value) => value + 250); }}>Train 250</button><button className="button primary" onClick={() => { setModel(initialNeuralModel()); setEpoch(0); }}>Reset</button></div></div>
+    </div>
+  );
+}
+function EditorBufferDemo() {
+  const [text, setText] = useState("A line in the current page.");
+  return (
+    <div className="study-demo editor-demo">
+      <div className="study-demo-heading"><p className="eyebrow">BUFFER STUDY</p><span className="mono">CURRENT PAGE</span></div>
+      <label htmlFor="buffer-input">Edit the current page buffer</label>
+      <textarea id="buffer-input" value={text} onChange={(event) => setText(event.target.value)} rows={3} />
+      <div className="study-demo-meta mono"><span>{text.length} characters</span><span>{text.split(/\n/).length} lines</span><span>tab 01</span></div>
+    </div>
+  );
+}
+function TumblepopDemo() {
+  const [captured, setCaptured] = useState(false);
+  return (
+    <div className="study-demo tumble-demo">
+      <div className="study-demo-heading"><p className="eyebrow">COLLISION STUDY</p><span className="mono">SYNTHETIC</span></div>
+      <div className="tumble-stage" aria-live="polite"><span className="player">◉</span><span className={`enemy ${captured ? "captured" : ""}`}>◆</span><span className="floor" /></div>
+      <p>{captured ? "Enemy captured by the directional vacuum." : "A compact model of the project’s capture interaction."}</p>
+      <button className="button secondary" onClick={() => setCaptured((value) => !value)}>{captured ? "Release enemy" : "Capture enemy"}</button>
     </div>
   );
 }

@@ -3,7 +3,7 @@
 Repository: `ali-portfolio`  
 Baseline commit: `01817f1` (`Add approved LinkedIn and email contact links`)  
 Audit date: 2026-11-06 (Asia/Karachi)  
-Current phase: **PHASE 06 — INTERACTIVE NEURAL NETWORK DEMO**  
+Current phase: **PHASE 07 — ARCANUM EDITOR & TUMBLEPOP SHOWCASE**  
 Status: **COMPLETED**
 
 ## Phase status
@@ -16,8 +16,8 @@ Status: **COMPLETED**
 | 03 | Navigation, scrolling and page transitions | COMPLETED | `e6ffa9d` | `docs/evidence/phase-03/` |
 | 04 | Featured project showcase redesign | COMPLETED | `52bdec8` | `docs/evidence/phase-04/` |
 | 05 | Individual project case-study pages | COMPLETED | `231909a` | `docs/evidence/phase-05/` |
-| 06 | Interactive neural network demo | COMPLETED | `PENDING` | `docs/evidence/phase-06/` |
-| 07 | Arcanum Editor & Tumblepop showcase | NOT STARTED | — | — |
+| 06 | Interactive neural network demo | COMPLETED | `477d091` | `docs/evidence/phase-06/` |
+| 07 | Arcanum Editor & Tumblepop showcase | COMPLETED | `PENDING` | `docs/evidence/phase-07/` |
 | 08 | FLEX Watcher interactive demonstration | NOT STARTED | — | — |
 | 09 | Content, competitions, about and contact | NOT STARTED | — | — |
 | 10 | Academics dashboard and API experience | NOT STARTED | — | — |
@@ -348,3 +348,37 @@ Every phase must re-run typecheck/build, unit tests and browser tests as applica
 - Branch: `codex/portfolio-phase-00`
 - Push: `origin/codex/portfolio-phase-00`
 
+
+## Phase 07 — Arcanum Editor & Tumblepop showcase
+
+### Completed
+
+- Preserved the supplied Arcanum Editor and Tumblepop media with existing attribution and captions.
+- Added an honest editable text-buffer study showing character/line counts and current-tab context.
+- Added a synthetic Tumblepop capture interaction that demonstrates the directional capture concept without presenting fabricated gameplay footage.
+- Kept interactions touch-sized, keyboard accessible and clearly labeled as educational/synthetic.
+
+### Verification
+
+- `npm run build` — PASS
+- `npm test` — PASS (51 tests)
+- `npm run test:browser` — PASS (7 Chromium tests at 375px, 768px and 1440px)
+- Direct route interaction smoke test — PASS for Arcanum buffer editing and Tumblepop capture at 390px.
+- Screenshot captured at `test-results/showcase-demo-390.png`.
+
+### Files affected
+
+- `src/main.tsx`
+- `src/style.css`
+- `docs/PORTFOLIO_2_ROADMAP.md`
+
+### Remaining issues
+
+- The Tumblepop interaction is intentionally a small synthetic teaching control; authentic gameplay footage remains constrained by available project media.
+- iOS Safari media verification remains scheduled for Phase 11.
+
+### Commit
+
+- Commit SHA: `PENDING`
+- Branch: `codex/portfolio-phase-00`
+- Push: `PENDING`

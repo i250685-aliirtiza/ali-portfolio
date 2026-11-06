@@ -1183,6 +1183,21 @@ th {
 .neural-demo-footer strong { color: var(--ink); }
 .neural-demo-footer > div { display: flex; gap: 8px; }
 .neural-demo-footer .button { min-height: 38px; padding: 8px 12px; font-size: 11px; }
+.study-demo { margin-top: 38px; padding: 22px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface-muted); }
+.study-demo-heading { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.study-demo-heading .eyebrow, .study-demo-heading .mono { font-size: 9px; }
+.study-demo label { display: block; font-size: 13px; margin-bottom: 8px; color: var(--muted-strong); }
+.editor-demo textarea { display: block; width: 100%; resize: vertical; padding: 12px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); background: var(--surface); color: var(--ink); font: 14px/1.6 "IBM Plex Mono", monospace; }
+.editor-demo textarea:focus-visible { outline: 2px solid #4e8d75; outline-offset: 2px; }
+.study-demo-meta { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 12px; color: var(--muted); font-size: 9px; }
+.tumble-stage { position: relative; height: 112px; margin: 4px 0 14px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #e7eee8; }
+.tumble-stage .player, .tumble-stage .enemy { position: absolute; bottom: 26px; display: grid; place-items: center; width: 30px; height: 30px; color: var(--accent); font-size: 24px; transition: transform 240ms var(--ease-standard), opacity 240ms var(--ease-standard); }
+.tumble-stage .player { left: 24%; }
+.tumble-stage .enemy { right: 24%; color: #8b6240; }
+.tumble-stage .enemy.captured { transform: translateX(-74px) scale(.75); opacity: .5; }
+.tumble-stage .floor { position: absolute; right: 12%; bottom: 20px; left: 12%; height: 3px; background: var(--accent); opacity: .55; }
+.tumble-demo > p { font-size: 13px; margin-bottom: 14px; }
+.study-demo .button { min-height: 38px; padding: 8px 12px; font-size: 11px; }
 @media (max-width: 680px) {
   .case-study { padding-bottom: 60px; }
   .case-header { padding-block: 48px 30px; }
@@ -1191,6 +1206,7 @@ th {
   .neural-demo { padding: 18px; }
   .xor-results { grid-template-columns: repeat(2, 1fr); }
   .neural-demo-footer { align-items: flex-start; flex-direction: column; }
+  .study-demo { padding: 18px; }
 }
 @media (min-width: 1400px) {
   .hero {
