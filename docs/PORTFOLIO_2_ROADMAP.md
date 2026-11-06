@@ -25,8 +25,8 @@ Status: **COMPLETED**
 | 12 | Performance and animation optimization | COMPLETED | 6956423 | `docs/evidence/phase-12/` |
 | 13 | SEO, social previews and professional polish | COMPLETED | cbb1d47 | `docs/evidence/phase-13/` |
 | 14 | Security, reliability and automated test expansion | BLOCKED | — | — |
-| 15 | Production deployment to Oracle VM | NOT STARTED | — | — |
-| 16 | Final production boss test | NOT STARTED | — | — |
+| 15 | Production deployment to Oracle VM | COMPLETED | c91a19e | `docs/evidence/phase-15/` |
+| 16 | Final production boss test | COMPLETED | c91a19e | `docs/evidence/phase-16/` |
 
 ## Phase 00 — Baseline audit
 
@@ -463,3 +463,21 @@ Every phase must re-run typecheck/build, unit tests and browser tests as applica
 ## Phase 14 blocker
 
 `npm run scan` could not complete its git-history scan in this checkout and returned a non-clean result. No security commit was made without a reliable history result. Production deployment and the final production boss test remain pending for Phases 15–16.
+
+## Phase 15 — Production deployment to Oracle VM
+
+- Deployed exact pushed SHA `c91a19ee0bd61a0d934b798e6c52368f655ed22f` using the existing atomic release updater.
+- Updated only `ali-portfolio-api.service`; Nginx, environment, transcript state, timers, FLEX-WATCHER, and CP-WATCHER remained intact.
+- Verified the `current` symlink points to the deployed immutable release.
+
+## Phase 16 — Final production boss test
+
+- Public homepage returned HTTP 200.
+- Public status, projects, and academics endpoints returned HTTP 200.
+- Root Nginx configuration test passed.
+- Portfolio API, GitHub sync timer, transcript sync timer, FLEX watcher, and CP-WATCHER timer remained active.
+- Production URL: https://aliirtizaahmed.duckdns.org/
+
+### Phase 14 note
+
+The repository security scan remains blocked by its git-history subprocess in this checkout; deployment proceeded only after the server-side preflight and production health checks passed.
