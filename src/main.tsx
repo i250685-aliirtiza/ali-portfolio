@@ -299,6 +299,7 @@ function ProjectCaseStudy({ name }: { name: (typeof featured)[number] }) {
           <p className="eyebrow">01 / ENGINEERING DECISIONS</p>
           <h2>What sits underneath.</h2>
           <p>{story.decision}</p>
+          {name === "Neural-Network" && <NeuralNetworkDemo />}
         </section>
         <aside className="case-facts">
           <p className="eyebrow">PROJECT RECORD</p>
@@ -310,6 +311,43 @@ function ProjectCaseStudy({ name }: { name: (typeof featured)[number] }) {
         </aside>
       </div>
     </main>
+  );
+}
+type NeuralModel = { w1: number[][]; b1: number[]; w2: number[]; b2: number };
+const xorData = [[0, 0, 0], [0, 1, 1], [1, 0, 1], [1, 1, 0]];
+const initialNeuralModel = (): NeuralModel => ({
+  w1: [[-0.8, 0.7], [0.6, -0.9]], b1: [0.1, -0.1], w2: [0.8, 0.8], b2: 0,
+});
+function predictXor(model: NeuralModel, x: number[]) {
+  const hidden = model.w1.map((row, i) => Math.tanh(row[0] * x[0] + row[1] * x[1] + model.b1[i]));
+  return Math.tanh(hidden[0] * model.w2[0] + hidden[1] * model.w2[1] + model.b2);
+}
+function trainXor(model: NeuralModel, epochs: number) {
+  const next = { w1: model.w1.map((r) => [...r]), b1: [...model.b1], w2: [...model.w2], b2: model.b2 };
+  for (let e = 0; e < epochs; e++) for (const [a, b, target] of xorData) {
+    const h = next.w1.map((row, i) => Math.tanh(row[0] * a + row[1] * b + next.b1[i]));
+    const out = Math.tanh(h[0] * next.w2[0] + h[1] * next.w2[1] + next.b2);
+    const deltaOut = (out - target) * (1 - out * out);
+    const deltaH = h.map((value, i) => deltaOut * next.w2[i] * (1 - value * value));
+    next.w2 = next.w2.map((weight, i) => weight - 0.08 * deltaOut * h[i]);
+    next.b2 -= 0.08 * deltaOut;
+    next.w1 = next.w1.map((row, i) => [row[0] - 0.08 * deltaH[i] * a, row[1] - 0.08 * deltaH[i] * b]);
+    next.b1 = next.b1.map((value, i) => value - 0.08 * deltaH[i]);
+  }
+  return next;
+}
+function NeuralNetworkDemo() {
+  const [model, setModel] = useState(initialNeuralModel);
+  const [epoch, setEpoch] = useState(0);
+  const predictions = xorData.map(([a, b]) => predictXor(model, [a, b]));
+  const loss = xorData.reduce((sum, [, , target], i) => sum + (predictions[i] - target) ** 2, 0) / 4;
+  return (
+    <div className="neural-demo" aria-label="Interactive XOR neural network demonstration">
+      <div className="neural-demo-heading"><div><p className="eyebrow">INTERACTIVE STUDY</p><h3>Watch a tiny network learn XOR.</h3></div><span className="mono">{epoch} EPOCHS</span></div>
+      <div className="neural-network-diagram" aria-hidden="true"><span className="neuron-col"><i /><i /></span><span className="network-lines">↗ ↘<br />↘ ↗</span><span className="neuron-col"><i /></span></div>
+      <div className="xor-results">{xorData.map(([a, b, target], i) => <div key={`${a}${b}`}><span className="mono">{a} ⊕ {b}</span><strong>{predictions[i].toFixed(2)}</strong><small>target {target}</small></div>)}</div>
+      <div className="neural-demo-footer"><span>Mean squared error <strong>{loss.toFixed(3)}</strong></span><div><button className="button secondary" onClick={() => { setModel(trainXor(model, 250)); setEpoch((value) => value + 250); }}>Train 250</button><button className="button primary" onClick={() => { setModel(initialNeuralModel()); setEpoch(0); }}>Reset</button></div></div>
+    </div>
   );
 }
 function ProjectRoute() {

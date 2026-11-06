@@ -3,7 +3,7 @@
 Repository: `ali-portfolio`  
 Baseline commit: `01817f1` (`Add approved LinkedIn and email contact links`)  
 Audit date: 2026-11-06 (Asia/Karachi)  
-Current phase: **PHASE 05 — INDIVIDUAL PROJECT CASE-STUDY PAGES**  
+Current phase: **PHASE 06 — INTERACTIVE NEURAL NETWORK DEMO**  
 Status: **COMPLETED**
 
 ## Phase status
@@ -15,8 +15,8 @@ Status: **COMPLETED**
 | 02 | Beautiful hero section | COMPLETED | `3da7ce5` | `docs/evidence/phase-02/` |
 | 03 | Navigation, scrolling and page transitions | COMPLETED | `e6ffa9d` | `docs/evidence/phase-03/` |
 | 04 | Featured project showcase redesign | COMPLETED | `52bdec8` | `docs/evidence/phase-04/` |
-| 05 | Individual project case-study pages | COMPLETED | `PENDING` | `docs/evidence/phase-05/` |
-| 06 | Interactive neural network demo | NOT STARTED | — | — |
+| 05 | Individual project case-study pages | COMPLETED | `231909a` | `docs/evidence/phase-05/` |
+| 06 | Interactive neural network demo | COMPLETED | `PENDING` | `docs/evidence/phase-06/` |
 | 07 | Arcanum Editor & Tumblepop showcase | NOT STARTED | — | — |
 | 08 | FLEX Watcher interactive demonstration | NOT STARTED | — | — |
 | 09 | Content, competitions, about and contact | NOT STARTED | — | — |
@@ -312,3 +312,38 @@ Every phase must re-run typecheck/build, unit tests and browser tests as applica
 - Branch: `codex/portfolio-phase-00`
 - Push: `origin/codex/portfolio-phase-00`
 
+
+## Phase 06 — Interactive neural network demo
+
+### Completed
+
+- Added an interactive XOR study to the Neural Network case-study page.
+- Implemented a deterministic 2–2–1 tanh network with explicit forward propagation and gradient updates.
+- Added repeatable training in 250-epoch steps, reset behavior, four prediction outputs and mean-squared-error reporting.
+- Added a compact network diagram and touch-sized controls that work at 390px.
+- Clearly presents this as a web study/demo separate from the original C++ repository.
+
+### Verification
+
+- `npm run build` — PASS
+- `npm test` — PASS (51 tests)
+- `npm run test:browser` — PASS (7 Chromium tests at 375px, 768px and 1440px)
+- Direct demo smoke test — PASS at 390px: training updates to 250 epochs, loss is visible and no overflow occurs.
+- Screenshot captured at `test-results/neural-demo-390.png`.
+
+### Files affected
+
+- `src/main.tsx`
+- `src/style.css`
+- `docs/PORTFOLIO_2_ROADMAP.md`
+
+### Remaining issues
+
+- The demo intentionally uses the documented XOR teaching network and does not claim to execute the original C++ binary in-browser.
+- Further numerical test coverage can be expanded in the security/testing phase.
+
+### Commit
+
+- Commit SHA: `PENDING`
+- Branch: `codex/portfolio-phase-00`
+- Push: `PENDING`

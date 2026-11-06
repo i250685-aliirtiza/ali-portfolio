@@ -1166,11 +1166,31 @@ th {
 .case-facts dt { color: var(--muted); }
 .case-facts dd { margin: 0; }
 .case-facts a { color: var(--accent); }
+.neural-demo { margin-top: 38px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface-muted); }
+.neural-demo-heading { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; }
+.neural-demo-heading h3 { font-size: 22px; margin-top: 8px; }
+.neural-demo-heading > .mono { font-size: 10px; color: var(--accent); white-space: nowrap; }
+.neural-network-diagram { display: flex; align-items: center; justify-content: center; gap: 34px; min-height: 120px; color: var(--accent); }
+.neuron-col { display: grid; gap: 18px; }
+.neuron-col i { display: block; width: 22px; height: 22px; border: 2px solid currentColor; border-radius: 50%; background: var(--surface); }
+.neuron-col:last-child i { width: 28px; height: 28px; }
+.network-lines { font-family: "IBM Plex Mono", monospace; font-size: 15px; line-height: 2; text-align: center; }
+.xor-results { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.xor-results > div { display: grid; gap: 2px; padding: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.xor-results .mono, .xor-results small { font-size: 9px; color: var(--muted); }
+.xor-results strong { font-size: 20px; font-weight: 500; }
+.neural-demo-footer { display: flex; justify-content: space-between; gap: 18px; align-items: center; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+.neural-demo-footer strong { color: var(--ink); }
+.neural-demo-footer > div { display: flex; gap: 8px; }
+.neural-demo-footer .button { min-height: 38px; padding: 8px 12px; font-size: 11px; }
 @media (max-width: 680px) {
   .case-study { padding-bottom: 60px; }
   .case-header { padding-block: 48px 30px; }
   .case-header h1 { font-size: 3.6rem; }
   .case-grid { grid-template-columns: 1fr; padding-top: 44px; }
+  .neural-demo { padding: 18px; }
+  .xor-results { grid-template-columns: repeat(2, 1fr); }
+  .neural-demo-footer { align-items: flex-start; flex-direction: column; }
 }
 @media (min-width: 1400px) {
   .hero {
