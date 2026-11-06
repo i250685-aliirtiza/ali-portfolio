@@ -3,7 +3,7 @@
 Repository: `ali-portfolio`  
 Baseline commit: `01817f1` (`Add approved LinkedIn and email contact links`)  
 Audit date: 2026-11-06 (Asia/Karachi)  
-Current phase: **PHASE 02 — BEAUTIFUL HERO SECTION**  
+Current phase: **PHASE 03 — NAVIGATION, SCROLLING AND PAGE TRANSITIONS**  
 Status: **COMPLETED**
 
 ## Phase status
@@ -12,8 +12,8 @@ Status: **COMPLETED**
 |---|---|---|---|---|
 | 00 | Full baseline audit and design specification | COMPLETED | `67d77a3` | `docs/evidence/phase-00/` |
 | 01 | Premium design system | COMPLETED | `f156d33` | `docs/evidence/phase-01/` |
-| 02 | Beautiful hero section | COMPLETED | `PENDING` | `docs/evidence/phase-02/` |
-| 03 | Navigation, scrolling and page transitions | NOT STARTED | — | — |
+| 02 | Beautiful hero section | COMPLETED | `3da7ce5` | `docs/evidence/phase-02/` |
+| 03 | Navigation, scrolling and page transitions | COMPLETED | `PENDING` | `docs/evidence/phase-03/` |
 | 04 | Featured project showcase redesign | NOT STARTED | — | — |
 | 05 | Individual project case-study pages | NOT STARTED | — | — |
 | 06 | Interactive neural network demo | NOT STARTED | — | — |
@@ -208,3 +208,37 @@ Every phase must re-run typecheck/build, unit tests and browser tests as applica
 - Branch: `codex/portfolio-phase-00`
 - Push: `origin/codex/portfolio-phase-00`
 
+
+## Phase 03 — Navigation, scrolling and page transitions
+
+### Completed
+
+- Added a sticky, translucent header that preserves the existing desktop and mobile navigation.
+- Added active-section feedback with `aria-current="location"` using a guarded IntersectionObserver.
+- Added scroll offsets so anchored sections remain visible below the sticky header.
+- Preserved keyboard Escape behavior, mobile menu behavior, direct hashes and browser history semantics.
+- Kept motion lightweight and transform/opacity based; unsupported observers leave navigation usable.
+
+### Verification
+
+- `npm run build` — PASS
+- `npm test` — PASS (51 tests)
+- `npm run test:browser` — PASS (7 Chromium tests at 375px, 768px and 1440px)
+- Screenshot review — PASS; no overflow or content visibility regressions.
+
+### Files affected
+
+- `src/main.tsx`
+- `src/style.css`
+- `docs/PORTFOLIO_2_ROADMAP.md`
+
+### Remaining issues
+
+- Full rapid-scroll, rotation and WebKit testing remain scheduled for Phase 11.
+- Section-specific reveal choreography remains intentionally restrained until later visual phases.
+
+### Commit
+
+- Commit SHA: `PENDING`
+- Branch: `codex/portfolio-phase-00`
+- Push: `PENDING`

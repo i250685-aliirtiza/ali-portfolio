@@ -98,6 +98,7 @@ function SectionTitle({
 }
 function Header() {
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("work");
   const links = [
     ["Work", "work"],
     ["Academics", "academics"],
@@ -106,6 +107,23 @@ function Header() {
     ["About", "about"],
     ["Contact", "contact"],
   ];
+  useEffect(() => {
+    const sections = links
+      .map(([, id]) => document.getElementById(id))
+      .filter((section): section is HTMLElement => Boolean(section));
+    if (!sections.length || !("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: "-18% 0px -68% 0px", threshold: [0.1, 0.35, 0.7] },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
   return (
     <header className="shell header">
       <a className="wordmark" href="#top" aria-label="Ali Irtiza Ahmed home">
@@ -131,7 +149,15 @@ function Header() {
         }}
       >
         {links.map(([label, id]) => (
-          <a key={id} href={`#${id}`} onClick={() => setOpen(false)}>
+          <a
+            key={id}
+            href={`#${id}`}
+            aria-current={active === id ? "location" : undefined}
+            onClick={() => {
+              setActive(id);
+              setOpen(false);
+            }}
+          >
             {label}
           </a>
         ))}

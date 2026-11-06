@@ -29,7 +29,7 @@
 }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 28px;
+  scroll-padding-top: 104px;
 }
 body {
   margin: 0;
@@ -121,6 +121,11 @@ button {
   justify-content: space-between;
   min-height: 94px;
   border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(10px);
 }
 .wordmark {
   font-size: 23px;
@@ -138,6 +143,12 @@ button {
 }
 .header nav a:hover {
   text-decoration: underline;
+  text-underline-offset: 6px;
+}
+.header nav a[aria-current="location"] {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
   text-underline-offset: 6px;
 }
 .menu-toggle {
@@ -326,6 +337,7 @@ button {
 }
 .section {
   padding-top: var(--space-section);
+  scroll-margin-top: 104px;
   padding-bottom: 0;
 }
 .section-heading {
@@ -1116,6 +1128,8 @@ th {
   .header {
     min-height: 76px;
     position: relative;
+    position: sticky;
+    top: 0;
   }
   .wordmark {
     font-size: 21px;
@@ -1214,6 +1228,7 @@ th {
   }
   .section {
     padding-top: 56px;
+    scroll-margin-top: 82px;
   }
   .section-heading {
     display: block;
