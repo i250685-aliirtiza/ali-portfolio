@@ -285,3 +285,11 @@ test("API outage does not blank the page; menu and skip link work by keyboard", 
     page.getByRole("heading", { name: "Selected engineering work." }),
   ).toBeVisible();
 });
+
+test("320px reduced-motion layout remains usable", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 760 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: /Ali Irtiza Ahmed/ })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
