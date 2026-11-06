@@ -85,7 +85,7 @@ function SectionTitle({
   children?: ReactNode;
 }) {
   return (
-    <div className="section-heading">
+    <div className="section-heading reveal">
       <div>
         <p className="eyebrow">
           <span>{number}</span> / {label}
@@ -98,6 +98,7 @@ function SectionTitle({
 }
 function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("work");
   const links = [
     ["Work", "work"],
@@ -107,6 +108,12 @@ function Header() {
     ["About", "about"],
     ["Contact", "contact"],
   ];
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   useEffect(() => {
     const sections = links
       .map(([, id]) => document.getElementById(id))
@@ -125,7 +132,7 @@ function Header() {
     return () => observer.disconnect();
   }, []);
   return (
-    <header className="shell header">
+    <header className={`shell header${scrolled ? " is-scrolled" : ""}`}>
       <a className="wordmark" href="#top" aria-label="Ali Irtiza Ahmed home">
         ali.irtiza.ahmed<span> /</span>
       </a>
@@ -200,6 +207,28 @@ function ProjectDiagram({ name }: { name: (typeof featured)[number] }) {
   );
 }
 function Work({ data, failed }: { data: Projects; failed: boolean }) {
+  useEffect(() => {
+    const cards = Array.from(document.querySelectorAll<HTMLElement>(".project"));
+    const cleanups = cards.map((card) => {
+      let frame = 0;
+      const move = (event: PointerEvent) => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || event.pointerType === "touch") return;
+        const rect = card.getBoundingClientRect();
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          const x = (event.clientX - rect.left) / rect.width - 0.5;
+          const y = (event.clientY - rect.top) / rect.height - 0.5;
+          card.style.setProperty("--tilt-x", `${(-y * 2.2).toFixed(2)}deg`);
+          card.style.setProperty("--tilt-y", `${(x * 2.2).toFixed(2)}deg`);
+        });
+      };
+      const reset = () => { cancelAnimationFrame(frame); card.style.removeProperty("--tilt-x"); card.style.removeProperty("--tilt-y"); };
+      card.addEventListener("pointermove", move);
+      card.addEventListener("pointerleave", reset);
+      return () => { cancelAnimationFrame(frame); card.removeEventListener("pointermove", move); card.removeEventListener("pointerleave", reset); };
+    });
+    return () => cleanups.forEach((cleanup) => cleanup());
+  }, []);
   return (
     <section id="work" className="section shell">
       <SectionTitle
@@ -218,7 +247,7 @@ function Work({ data, failed }: { data: Projects; failed: boolean }) {
           return (
             <article
               key={name}
-              className={`project project-${i}`}
+              className={`project project-${i} reveal reveal-delay-${i + 1}`}
               data-project={name}
               aria-labelledby={`project-title-${i}`}
             >
@@ -403,6 +432,15 @@ function AcademicRecord({
   failed: boolean;
 }) {
   const [selected, setSelected] = useState("");
+  const [displayCgpa, setDisplayCgpa] = useState(data.cgpa);
+  useEffect(() => {
+    if (!data.cgpa || window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setDisplayCgpa(data.cgpa); return; }
+    let frame = 0;
+    const start = performance.now();
+    const tick = (now: number) => { const progress = Math.min((now - start) / 700, 1); setDisplayCgpa(data.cgpa * (1 - Math.pow(1 - progress, 3))); if (progress < 1) frame = requestAnimationFrame(tick); };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [data.cgpa]);
   const semester =
     data.semesters.find((s) => s.key === selected) ?? data.semesters[0];
   const columns = [
@@ -415,7 +453,7 @@ function AcademicRecord({
     semester?.courses.some((c) => c[key] !== undefined),
   );
   return (
-    <section id="academics" className="section shell">
+    <section id="academics" className="section shell reveal">
       <SectionTitle
         number="03"
         label="ACADEMICS"
@@ -425,7 +463,7 @@ function AcademicRecord({
         <div className="academic-summary">
           <p className="eyebrow">CURRENT CGPA</p>
           <div className="gpa">
-            {data.cgpa.toFixed(2)}
+            {displayCgpa.toFixed(2)}
             <span> / 4.00</span>
           </div>
           <p className="provenance">
@@ -563,6 +601,14 @@ function App() {
     academicsSchema,
     emptyAcademics,
   );
+  useEffect(() => {
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
+    if (!nodes.length) return;
+    if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) { nodes.forEach((node) => node.classList.add("is-visible")); return; }
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("is-visible"); observer.unobserve(entry.target); } }), { threshold: 0.12, rootMargin: "0px 0px -8%" });
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
   return (
     <>
       <a className="skip-link" href="#main">
