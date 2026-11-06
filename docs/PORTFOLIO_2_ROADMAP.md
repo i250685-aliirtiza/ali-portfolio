@@ -3,7 +3,7 @@
 Repository: `ali-portfolio`  
 Baseline commit: `01817f1` (`Add approved LinkedIn and email contact links`)  
 Audit date: 2026-11-06 (Asia/Karachi)  
-Current phase: **PHASE 03 — NAVIGATION, SCROLLING AND PAGE TRANSITIONS**  
+Current phase: **PHASE 04 — FEATURED PROJECT SHOWCASE REDESIGN**  
 Status: **COMPLETED**
 
 ## Phase status
@@ -13,8 +13,8 @@ Status: **COMPLETED**
 | 00 | Full baseline audit and design specification | COMPLETED | `67d77a3` | `docs/evidence/phase-00/` |
 | 01 | Premium design system | COMPLETED | `f156d33` | `docs/evidence/phase-01/` |
 | 02 | Beautiful hero section | COMPLETED | `3da7ce5` | `docs/evidence/phase-02/` |
-| 03 | Navigation, scrolling and page transitions | COMPLETED | `PENDING` | `docs/evidence/phase-03/` |
-| 04 | Featured project showcase redesign | NOT STARTED | — | — |
+| 03 | Navigation, scrolling and page transitions | COMPLETED | `e6ffa9d` | `docs/evidence/phase-03/` |
+| 04 | Featured project showcase redesign | COMPLETED | `PENDING` | `docs/evidence/phase-04/` |
 | 05 | Individual project case-study pages | NOT STARTED | — | — |
 | 06 | Interactive neural network demo | NOT STARTED | — | — |
 | 07 | Arcanum Editor & Tumblepop showcase | NOT STARTED | — | — |
@@ -243,3 +243,35 @@ Every phase must re-run typecheck/build, unit tests and browser tests as applica
 - Branch: `codex/portfolio-phase-00`
 - Push: `origin/codex/portfolio-phase-00`
 
+
+## Phase 04 — Featured project showcase redesign
+
+### Completed
+
+- Refined the four existing cards with a clearer featured-card distinction and stronger border hierarchy.
+- Added restrained lift, shadow, arrow and image-scale feedback for pointer and touch-compatible focus states.
+- Added a small accent rule beneath project titles to improve scan hierarchy.
+- Improved source-link affordance with visible hover underlines.
+- Preserved exact repository links, authentic media, authored descriptions, technology tags and metadata fallback behavior.
+
+### Verification
+
+- `npm run build` — PASS
+- `npm test` — PASS (51 tests)
+- `npm run test:browser` — PASS (7 Chromium tests at 375px, 768px and 1440px)
+- Screenshot review — PASS; all four projects remain visible and usable with no overflow.
+
+### Files affected
+
+- `src/style.css`
+- `docs/PORTFOLIO_2_ROADMAP.md`
+
+### Remaining issues
+
+- Individual case-study routes and project-specific interactive demonstrations remain scheduled for Phases 05–08.
+
+### Commit
+
+- Commit SHA: `PENDING`
+- Branch: `codex/portfolio-phase-00`
+- Push: `PENDING`
