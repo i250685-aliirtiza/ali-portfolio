@@ -77,12 +77,7 @@ export function Competitions() {
                     <figcaption>{photo.caption}</figcaption>
                   </figure>
                 ))
-              ) : (
-                <div className="photo-placeholder">
-                  <span className="mono">FROM THE EVENT</span>
-                  <p>A photograph will be added here.</p>
-                </div>
-              )}
+              ) : null}
             </div>
           </article>
         ))}

@@ -19,7 +19,7 @@ Status: **COMPLETED**
 | 06 | Interactive neural network demo | COMPLETED | `477d091` | `docs/evidence/phase-06/` |
 | 07 | Arcanum Editor & Tumblepop showcase | COMPLETED | `PENDING` | `docs/evidence/phase-07/` |
 | 08 | FLEX Watcher interactive demonstration | COMPLETED | PENDING | `docs/evidence/phase-08/` |
-| 09 | Content, competitions, about and contact | NOT STARTED | — | — |
+| 09 | Content, competitions, about and contact | COMPLETED | PENDING | `docs/evidence/phase-09/` |
 | 10 | Academics dashboard and API experience | NOT STARTED | — | — |
 | 11 | Complete mobile and cross-browser polish | NOT STARTED | — | — |
 | 12 | Performance and animation optimization | NOT STARTED | — | — |
@@ -416,4 +416,39 @@ Every phase must re-run typecheck/build, unit tests and browser tests as applica
 - Branch: `codex/portfolio-phase-00`
 - Push: `origin/codex/portfolio-phase-00`
 
+
+
+## Phase 09 — Content, competitions, about and contact
+
+### Completed
+
+- Removed the empty Notes / Learning Log block until owner-authored entries exist, avoiding placeholder content in the primary story.
+- Preserved the verified NaSCon ’26 participation record and authentic event photograph.
+- Removed the empty competition photo placeholder so the archive never suggests missing media is available.
+- Preserved the authentic badminton story and approved GitHub, LinkedIn and email contact links.
+- Kept current-focus writing grounded in algorithms, useful software, and systems/graphics interests.
+
+### Verification
+
+- `npm run build` — PASS
+- `npm test` — PASS (51 tests)
+- `npm run test:browser` — PASS (7 Chromium tests at 375px, 768px and 1440px)
+- Accessibility, navigation, API fallback, overflow, and screenshot checks remained green.
+
+### Files affected
+
+- `src/main.tsx`
+- `src/Competitions.tsx`
+- `docs/PORTFOLIO_2_ROADMAP.md`
+
+### Remaining issues
+
+- Additional cross-browser and physical-device verification remains scheduled for Phase 11.
+- Notes will remain hidden until meaningful owner-authored posts are available.
+
+### Commit
+
+- Commit SHA: `fbd5d873eaf65152c60284e9f0b9ffbf3d6811b2`
+- Branch: `codex/portfolio-phase-00`
+- Push: `origin/codex/portfolio-phase-00`
 

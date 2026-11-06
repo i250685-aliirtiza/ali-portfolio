@@ -750,30 +750,12 @@ function App() {
             </span>
           </div>
         </section>
-        <section className="section shell notes-section">
-          <SectionTitle
-            number="07"
-            label="NOTES / LEARNING LOG"
-            title="Room for reflection."
-          />
-          {notes.length ? (
-            notes.map((n) => (
-              <a key={n.url} href={n.url}>
-                {n.title} — {n.date}
-              </a>
-            ))
-          ) : (
-            <div className="notes-empty">
-              <span className="mono">NO ENTRIES YET</span>
-              <p>
-                A place for notes on what I’m learning.
-                <br />
-                Nothing published just yet.
-              </p>
-              <span aria-hidden="true">✳</span>
-            </div>
-          )}
-        </section>
+        {notes.length > 0 && (
+          <section className="section shell notes-section">
+            <SectionTitle number="07" label="NOTES / LEARNING LOG" title="Room for reflection." />
+            {notes.map((n) => <a key={n.url} href={n.url}>{n.title} — {n.date}</a>)}
+          </section>
+        )}
         <section id="contact" className="contact-section">
           <div className="shell contact-inner">
             <div>
