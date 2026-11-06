@@ -244,6 +244,9 @@ function Work({ data, failed }: { data: Projects; failed: boolean }) {
                   ))}
                 </div>
                 <div className="project-actions">
+                  <a href={`/projects/${projectSlugs[name]}`}>
+                    Case study <Arrow />
+                  </a>
                   <a href={`${github}/${name}`}>
                     View source <Arrow diagonal />
                   </a>
@@ -266,6 +269,54 @@ function Work({ data, failed }: { data: Projects; failed: boolean }) {
       </p>
     </section>
   );
+}
+const projectSlugs: Record<(typeof featured)[number], string> = {
+  "Neural-Network": "neural-network",
+  "Blackwood-Hargrove-Editor": "arcanum-editor",
+  PF_Project: "tumblepop",
+  "FLEX-WATCHER": "flex-watcher",
+};
+function ProjectCaseStudy({ name }: { name: (typeof featured)[number] }) {
+  const story = caseStudies[name];
+  const media = projectImages[name];
+  return (
+    <main className="case-study shell">
+      <a className="back-link" href="/#work">← Back to selected work</a>
+      <header className="case-header">
+        <p className="eyebrow"><span>PROJECT</span> / {story.category}</p>
+        <h1>{story.title}</h1>
+        <p className="case-intro">{story.intro}</p>
+        <div className="tags">{story.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+      </header>
+      {media && (
+        <figure className="case-media">
+          <img src={media.src} alt={media.alt} width={media.width} height={media.height} />
+          {media.caption && <figcaption>{media.caption}</figcaption>}
+        </figure>
+      )}
+      <div className="case-grid">
+        <section>
+          <p className="eyebrow">01 / ENGINEERING DECISIONS</p>
+          <h2>What sits underneath.</h2>
+          <p>{story.decision}</p>
+        </section>
+        <aside className="case-facts">
+          <p className="eyebrow">PROJECT RECORD</p>
+          <dl>
+            <div><dt>Repository</dt><dd><a href={`${github}/${name}`}>View source ↗</a></dd></div>
+            <div><dt>Format</dt><dd>{story.category.split(" /")[0]}</dd></div>
+            <div><dt>Status</dt><dd>Curated project record</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </main>
+  );
+}
+function ProjectRoute() {
+  const slug = window.location.pathname.replace(/^\/projects\//, "").replace(/\/$/, "");
+  const name = featured.find((project) => projectSlugs[project] === slug);
+  if (!name) return null;
+  return <ProjectCaseStudy name={name} />;
 }
 function AcademicRecord({
   data,
@@ -421,6 +472,8 @@ function AcademicRecord({
   );
 }
 function App() {
+  const route = ProjectRoute();
+  if (route) return route;
   const projects = useFeed("/api/public/projects", projectsSchema, {
     projects: [],
     lastUpdated: null,

@@ -3,7 +3,7 @@
 Repository: `ali-portfolio`  
 Baseline commit: `01817f1` (`Add approved LinkedIn and email contact links`)  
 Audit date: 2026-11-06 (Asia/Karachi)  
-Current phase: **PHASE 04 — FEATURED PROJECT SHOWCASE REDESIGN**  
+Current phase: **PHASE 05 — INDIVIDUAL PROJECT CASE-STUDY PAGES**  
 Status: **COMPLETED**
 
 ## Phase status
@@ -14,8 +14,8 @@ Status: **COMPLETED**
 | 01 | Premium design system | COMPLETED | `f156d33` | `docs/evidence/phase-01/` |
 | 02 | Beautiful hero section | COMPLETED | `3da7ce5` | `docs/evidence/phase-02/` |
 | 03 | Navigation, scrolling and page transitions | COMPLETED | `e6ffa9d` | `docs/evidence/phase-03/` |
-| 04 | Featured project showcase redesign | COMPLETED | `PENDING` | `docs/evidence/phase-04/` |
-| 05 | Individual project case-study pages | NOT STARTED | — | — |
+| 04 | Featured project showcase redesign | COMPLETED | `52bdec8` | `docs/evidence/phase-04/` |
+| 05 | Individual project case-study pages | COMPLETED | `PENDING` | `docs/evidence/phase-05/` |
 | 06 | Interactive neural network demo | NOT STARTED | — | — |
 | 07 | Arcanum Editor & Tumblepop showcase | NOT STARTED | — | — |
 | 08 | FLEX Watcher interactive demonstration | NOT STARTED | — | — |
@@ -276,3 +276,38 @@ Every phase must re-run typecheck/build, unit tests and browser tests as applica
 - Branch: `codex/portfolio-phase-00`
 - Push: `origin/codex/portfolio-phase-00`
 
+
+## Phase 05 — Individual project case-study pages
+
+### Completed
+
+- Added stable routes: `/projects/neural-network`, `/projects/arcanum-editor`, `/projects/tumblepop`, and `/projects/flex-watcher`.
+- Added shareable case-study layouts with project headers, authentic existing media, engineering decisions, project facts, exact source links and back-to-work navigation.
+- Added homepage case-study links without removing the existing source links.
+- Unknown `/projects/*` paths fall through to the existing application safely; no fabricated content is shown.
+- Used only authored descriptions and existing media/metadata; no unsupported challenges or claims were added.
+
+### Verification
+
+- `npm run build` — PASS
+- `npm test` — PASS (51 tests)
+- `npm run test:browser` — PASS (7 Chromium tests at 375px, 768px and 1440px)
+- Direct route smoke test — PASS for `/projects/neural-network` at 375px; heading, back link and no-overflow check passed.
+- Screenshot captured at `test-results/case-study-375.png` during the direct-route smoke test.
+
+### Files affected
+
+- `src/main.tsx`
+- `src/style.css`
+- `docs/PORTFOLIO_2_ROADMAP.md`
+
+### Remaining issues
+
+- Project-specific interactive demos and richer source-verified media remain scheduled for Phases 06–08.
+- Production server fallback configuration remains part of the deployment phase.
+
+### Commit
+
+- Commit SHA: `PENDING`
+- Branch: `codex/portfolio-phase-00`
+- Push: `PENDING`
