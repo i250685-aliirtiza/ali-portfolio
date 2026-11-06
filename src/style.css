@@ -41,6 +41,9 @@ body {
   background: var(--bg);
   overflow-x: clip;
 }
+.reading-progress { position: fixed; inset: 0 0 auto; z-index: 40; height: 3px; background: var(--accent); transform-origin: left; pointer-events: none; }
+.back-to-top { position: fixed; right: 22px; bottom: 22px; z-index: 15; width: 42px; height: 42px; border: 1px solid var(--line-strong); border-radius: 50%; background: var(--surface); color: var(--accent); box-shadow: var(--shadow-sm); }
+.back-to-top:hover { transform: translateY(-2px); }
 button,
 select {
   font: inherit;
@@ -171,7 +174,11 @@ button {
   padding-block: clamp(5rem, 10vw, 7.25rem) clamp(4.25rem, 8vw, 6rem);
   align-items: center;
 }
-.hero-main { animation: hero-rise 700ms var(--ease-standard) both; }
+.hero-main > .eyebrow { animation: hero-rise 520ms var(--ease-standard) both; }
+.hero-main h1 { animation: hero-rise 620ms 70ms var(--ease-standard) both; }
+.hero-main .hero-intro { animation: hero-rise 480ms 150ms var(--ease-standard) both; }
+.hero-main .hero-actions { animation: hero-rise 420ms 220ms var(--ease-standard) both; }
+.hero-main .hero-footnote { animation: hero-rise 420ms 300ms var(--ease-standard) both; }
 .hero h1 {
   font-size: clamp(4.75rem, 9vw, 7rem);
   letter-spacing: -0.065em;
@@ -423,6 +430,7 @@ button {
   font-size: 22px;
   transition: transform 220ms var(--ease-standard), color 220ms var(--ease-standard);
 }
+.project:hover .project-top > span:last-child, .project:focus-within .project-top > span:last-child { transform: translate(4px, -3px); color: var(--accent); }
 .project:hover .project-top > span:last-child {
   color: var(--accent);
   transform: translate(3px, -3px);
