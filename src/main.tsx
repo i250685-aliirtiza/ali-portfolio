@@ -302,6 +302,7 @@ function ProjectCaseStudy({ name }: { name: (typeof featured)[number] }) {
           {name === "Neural-Network" && <NeuralNetworkDemo />}
           {name === "Blackwood-Hargrove-Editor" && <EditorBufferDemo />}
           {name === "PF_Project" && <TumblepopDemo />}
+          {name === "FLEX-WATCHER" && <FlexWatcherDemo />}
         </section>
         <aside className="case-facts">
           <p className="eyebrow">PROJECT RECORD</p>
@@ -373,6 +374,20 @@ function TumblepopDemo() {
       <button className="button secondary" onClick={() => setCaptured((value) => !value)}>{captured ? "Release enemy" : "Capture enemy"}</button>
     </div>
   );
+}
+function FlexWatcherDemo() {
+  const [stage, setStage] = useState<"idle" | "changed" | "error">("idle");
+  const changed = stage === "changed";
+  const error = stage === "error";
+  return (<div className="study-demo watcher-demo" aria-label="Synthetic FLEX Watcher workflow demonstration">
+    <div className="study-demo-heading"><div><p className="eyebrow">SYNTHETIC SIMULATION</p><h3>Detect → compare → notify.</h3></div><span className="mono">NO AUTH REQUESTS</span></div>
+    <p className="watcher-boundary">All marks below are fictional. The browser never contacts FLEX or the watcher service.</p>
+    <div className="watcher-flow" aria-label="Monitoring workflow"><span className="flow-node is-active">poll<br /><small>authorized response</small></span><i>→</i><span className={"flow-node " + (changed || error ? "is-active" : "")}>compare<br /><small>last-good snapshot</small></span><i>→</i><span className={"flow-node " + (changed ? "is-active" : "")}>notify<br /><small>email queued</small></span></div>
+    <div className="snapshot-grid"><div><span className="mono">LAST GOOD SNAPSHOT</span><strong>2.74</strong><small>Algorithms · 3 credits</small></div><span className="snapshot-arrow">→</span><div className={changed ? "snapshot-new" : ""}><span className="mono">LATEST POLL</span><strong>{error ? "—" : changed ? "2.80" : "2.74"}</strong><small>{error ? "Simulated challenge" : changed ? "Diff: +0.06" : "No changes"}</small></div></div>
+    <p className={`watcher-message ${error ? "is-error" : changed ? "is-change" : ""}`} role="status">{error ? "Poll failed safely. The last-good snapshot remains available." : changed ? "Change detected. A sample notification is ready below." : "Polling a synthetic snapshot. No notification needed."}</p>
+    {changed && <div className="watcher-notification"><span className="mono">SAMPLE NOTIFICATION</span><strong>FLEX marks changed</strong><span>Algorithms: 2.74 → 2.80</span></div>}
+    <div className="watcher-actions"><button className="button secondary" onClick={() => setStage(changed ? "idle" : "changed")}>{changed ? "Restore baseline" : "Simulate mark change"}</button><button className="button secondary" onClick={() => setStage(error ? "idle" : "error")}>{error ? "Clear error" : "Simulate error"}</button>{(changed || error) && <button className="button ghost" onClick={() => setStage("idle")}>Reset flow</button>}</div>
+  </div>);
 }
 function ProjectRoute() {
   const slug = window.location.pathname.replace(/^\/projects\//, "").replace(/\/$/, "");
@@ -800,3 +815,4 @@ createRoot(document.getElementById("root")!).render(
     </Boundary>
   </React.StrictMode>,
 );
+

@@ -18,7 +18,7 @@ Status: **COMPLETED**
 | 05 | Individual project case-study pages | COMPLETED | `231909a` | `docs/evidence/phase-05/` |
 | 06 | Interactive neural network demo | COMPLETED | `477d091` | `docs/evidence/phase-06/` |
 | 07 | Arcanum Editor & Tumblepop showcase | COMPLETED | `PENDING` | `docs/evidence/phase-07/` |
-| 08 | FLEX Watcher interactive demonstration | NOT STARTED | — | — |
+| 08 | FLEX Watcher interactive demonstration | COMPLETED | PENDING | `docs/evidence/phase-08/` |
 | 09 | Content, competitions, about and contact | NOT STARTED | — | — |
 | 10 | Academics dashboard and API experience | NOT STARTED | — | — |
 | 11 | Complete mobile and cross-browser polish | NOT STARTED | — | — |
@@ -382,4 +382,38 @@ Every phase must re-run typecheck/build, unit tests and browser tests as applica
 - Commit SHA: `1ad64c3`
 - Branch: `codex/portfolio-phase-00`
 - Push: `origin/codex/portfolio-phase-00`
+## Phase 08 — FLEX Watcher interactive demonstration
+
+### Completed
+
+- Expanded the FLEX Watcher case-study demo into a synthetic poll → compare → notify workflow.
+- Added visible last-good and latest-poll snapshots, mark-diff state, sample notification, and simulated challenge/error behavior.
+- Explained that the browser makes no authenticated requests and all academic marks are fictional.
+- Added a responsive technical flow diagram that stacks cleanly on touch-sized screens.
+- Preserved the actual watcher service and existing privacy boundaries.
+
+### Verification
+
+- `npm run build` — PASS
+- `npm test` — PASS (51 tests)
+- `npm run test:browser` — PASS (7 Chromium tests at 375px, 768px and 1440px)
+- Existing direct case-study route coverage remains green; interactive states are local React state only.
+
+### Files affected
+
+- `src/main.tsx`
+- `src/style.css`
+- `docs/PORTFOLIO_2_ROADMAP.md`
+
+### Remaining issues
+
+- Browser boss testing remains Chromium-only; iOS/WebKit verification remains scheduled for Phase 11.
+- The displayed marks are intentionally synthetic and do not represent a live FLEX account.
+
+### Commit
+
+- Commit SHA: `52b0d4db74b06a7da23e6a0e045345fa27c80233`
+- Branch: `codex/portfolio-phase-00`
+- Push: `origin/codex/portfolio-phase-00`
+
 
