@@ -3,7 +3,7 @@
 Repository: `ali-portfolio`  
 Baseline commit: `01817f1` (`Add approved LinkedIn and email contact links`)  
 Audit date: 2026-11-06 (Asia/Karachi)  
-Current phase: **PHASE 01 — PREMIUM DESIGN SYSTEM**  
+Current phase: **PHASE 02 — BEAUTIFUL HERO SECTION**  
 Status: **COMPLETED**
 
 ## Phase status
@@ -11,8 +11,8 @@ Status: **COMPLETED**
 | Phase | Name | Status | Commit | Evidence |
 |---|---|---|---|---|
 | 00 | Full baseline audit and design specification | COMPLETED | `67d77a3` | `docs/evidence/phase-00/` |
-| 01 | Premium design system | COMPLETED | `PENDING` | `docs/evidence/phase-01/` |
-| 02 | Beautiful hero section | NOT STARTED | — | — |
+| 01 | Premium design system | COMPLETED | `f156d33` | `docs/evidence/phase-01/` |
+| 02 | Beautiful hero section | COMPLETED | `PENDING` | `docs/evidence/phase-02/` |
 | 03 | Navigation, scrolling and page transitions | NOT STARTED | — | — |
 | 04 | Featured project showcase redesign | NOT STARTED | — | — |
 | 05 | Individual project case-study pages | NOT STARTED | — | — |
@@ -174,3 +174,36 @@ Every phase must re-run typecheck/build, unit tests and browser tests as applica
 - Branch: `codex/portfolio-phase-00`
 - Push: `origin/codex/portfolio-phase-00`
 
+
+## Phase 02 — Beautiful hero section
+
+### Completed
+
+- Strengthened the hero’s responsive scale with fluid typography and spacing.
+- Added a staged, transform/opacity-only entrance for the hero copy and workbench.
+- Improved the workbench panel with stronger hierarchy, quiet elevation and a restrained accent marker.
+- Added subtle row hover feedback without changing content or interaction semantics.
+- Preserved meaningful technical focus content, working CTAs, mobile stacking and reduced-motion fallback.
+
+### Verification
+
+- `npm run build` — PASS
+- `npm test` — PASS (51 tests)
+- `npm run test:browser` — PASS (7 Chromium tests at 375px, 768px and 1440px)
+- Screenshot review — PASS; hero remains readable and balanced on desktop and mobile.
+
+### Files affected
+
+- `src/style.css`
+- `docs/PORTFOLIO_2_ROADMAP.md`
+
+### Remaining issues
+
+- Header behavior, active navigation and scroll-linked transitions remain scheduled for Phase 03.
+- Project-specific visual interaction remains scheduled for Phase 04.
+
+### Commit
+
+- Commit SHA: `PENDING`
+- Branch: `codex/portfolio-phase-00`
+- Push: `PENDING`
