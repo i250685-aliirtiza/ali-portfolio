@@ -3,15 +3,15 @@
 Repository: `ali-portfolio`  
 Baseline commit: `01817f1` (`Add approved LinkedIn and email contact links`)  
 Audit date: 2026-11-06 (Asia/Karachi)  
-Current phase: **PHASE 00 — FULL BASELINE AUDIT AND DESIGN SPECIFICATION**  
+Current phase: **PHASE 01 — PREMIUM DESIGN SYSTEM**  
 Status: **COMPLETED**
 
 ## Phase status
 
 | Phase | Name | Status | Commit | Evidence |
 |---|---|---|---|---|
-| 00 | Full baseline audit and design specification | COMPLETED | `PENDING` | `docs/evidence/phase-00/` |
-| 01 | Premium design system | NOT STARTED | — | — |
+| 00 | Full baseline audit and design specification | COMPLETED | `67d77a3` | `docs/evidence/phase-00/` |
+| 01 | Premium design system | COMPLETED | `PENDING` | `docs/evidence/phase-01/` |
 | 02 | Beautiful hero section | NOT STARTED | — | — |
 | 03 | Navigation, scrolling and page transitions | NOT STARTED | — | — |
 | 04 | Featured project showcase redesign | NOT STARTED | — | — |
@@ -140,3 +140,36 @@ Every phase must re-run typecheck/build, unit tests and browser tests as applica
 - Branch: `codex/portfolio-phase-00`
 - Push: `origin/codex/portfolio-phase-00`
 
+
+## Phase 01 — Premium design system
+
+### Completed
+
+- Added shared surface, ink, muted, border, accent, radius, shadow, spacing and easing tokens.
+- Added fluid heading sizing with `clamp()` and a shared section spacing token.
+- Standardized button geometry, hover/active feedback, focus rings and select states.
+- Improved card and notes-panel geometry with restrained elevation.
+- Preserved the existing IBM Plex typography, responsive breakpoints, content, integrations and reduced-motion behavior.
+
+### Verification
+
+- `npm run build` — PASS
+- `npm test` — PASS (51 tests)
+- `npm run test:browser` — PASS (7 Chromium tests at 375px, 768px and 1440px)
+- Rendered screenshot review — PASS; no overflow, readability or hierarchy regressions observed.
+
+### Files affected
+
+- `src/style.css`
+- `docs/PORTFOLIO_2_ROADMAP.md`
+
+### Remaining issues
+
+- The hero, navigation and project-specific visual storytelling remain intentionally unchanged for their dedicated phases.
+- Cross-browser and real-device verification remain scheduled for Phase 11.
+
+### Commit
+
+- Commit SHA: `PENDING`
+- Branch: `codex/portfolio-phase-00`
+- Push: `PENDING`
