@@ -1556,3 +1556,6 @@ th {
     white-space: normal;
   }
 }
+
+.semester-course-count { display:block; margin-top:7px; color:var(--muted); font-size:9px; }
+.academic-status { margin: 14px 0; padding: 10px 12px; border-left: 2px solid var(--accent); background: var(--surface-muted); color: var(--muted-strong); font-size: 12px; }

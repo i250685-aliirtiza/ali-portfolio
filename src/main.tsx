@@ -461,6 +461,7 @@ function AcademicRecord({
                       </option>
                     ))}
                   </select>
+                  <span className="semester-course-count mono">{semester.courses.length} courses</span>
                 </div>
                 {semester.sgpa !== undefined && (
                   <p>
@@ -484,6 +485,7 @@ function AcademicRecord({
                     : ""}
                 </p>
               )}
+              {semester.status === "in-progress" && <p className="academic-status" role="status">In progress · pending results stay separate from completed grades.</p>}
               {visible.length > 0 && (
                 <div className="table-wrap">
                   <table>
@@ -536,7 +538,7 @@ function AcademicRecord({
               <span className="mono">TRANSCRIPT DETAILS PENDING</span>
             </div>
           )}
-          <p className="sync-note">
+          <p className="sync-note" aria-live="polite">
             {data.lastSuccessfulSync
               ? `${data.stale || failed ? "Saved academic record · " : ""}Last successful academic sync: ${date(data.lastSuccessfulSync)}`
               : data.recordImportedAt
