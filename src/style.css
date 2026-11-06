@@ -414,6 +414,10 @@ button {
 .section-heading.reveal.is-visible { --reveal-y: 0px; }
 .project-image img { transition: transform 500ms var(--ease-standard); }
 .project:hover .project-image img { transform: scale(1.035); }
+.competition-event { transition: transform 260ms var(--ease-standard), box-shadow 260ms var(--ease-standard), border-color 220ms var(--ease-standard); }
+.competition-event:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+.competition-photographs img { transition: transform 420ms var(--ease-standard); }
+.competition-event:hover .competition-photographs img { transform: scale(1.02); }
 .project-top {
   display: flex;
   align-items: center;
