@@ -388,21 +388,23 @@ button {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  --reveal-y: 0px;
+  transform: translateY(var(--reveal-y)) perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
   transition: transform 260ms var(--ease-standard), box-shadow 260ms var(--ease-standard), border-color 220ms var(--ease-standard);
 }
 .project:hover {
-  transform: perspective(900px) translateY(-4px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform: translateY(calc(var(--reveal-y) - 4px)) perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
   border-color: var(--line-strong);
   box-shadow: 0 18px 38px rgb(23 34 31 / 9%);
 }
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard); }
-.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.reveal { --reveal-y: 18px; opacity: 0; transition: opacity var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard); }
+.reveal.is-visible { --reveal-y: 0px; opacity: 1; }
 .reveal-delay-1 { transition-delay: 40ms; }
 .reveal-delay-2 { transition-delay: 100ms; }
 .reveal-delay-3 { transition-delay: 160ms; }
 .reveal-delay-4 { transition-delay: 220ms; }
-.section-heading.reveal { transform: translateY(12px); }
+.section-heading.reveal { --reveal-y: 12px; transform: translateY(var(--reveal-y)); }
+.section-heading.reveal.is-visible { --reveal-y: 0px; }
 .project-image img { transition: transform 500ms var(--ease-standard); }
 .project:hover .project-image img { transform: scale(1.035); }
 .project-top {
@@ -1565,8 +1567,8 @@ th {
   }
 }
 @media (hover: none) {
-  .project, .project:hover { transform: none; }
-  .project:active { transform: scale(.995); }
+  .project, .project:hover { transform: translateY(var(--reveal-y)); }
+  .project:active { transform: translateY(var(--reveal-y)) scale(.995); }
 }
 .semester-cgpa {
   font-size: 12px;
