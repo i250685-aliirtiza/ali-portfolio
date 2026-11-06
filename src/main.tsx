@@ -319,7 +319,7 @@ function ProjectCaseStudy({ name }: { name: (typeof featured)[number] }) {
   const story = caseStudies[name];
   const media = projectImages[name];
   return (
-    <main className="case-study shell">
+    <main className="case-study shell case-reveal">
       <a className="back-link" href="/#work">← Back to selected work</a>
       <header className="case-header">
         <p className="eyebrow"><span>PROJECT</span> / {story.category}</p>
@@ -381,14 +381,17 @@ function trainXor(model: NeuralModel, epochs: number) {
 function NeuralNetworkDemo() {
   const [model, setModel] = useState(initialNeuralModel);
   const [epoch, setEpoch] = useState(0);
+  const [lossHistory, setLossHistory] = useState<number[]>([]);
   const predictions = xorData.map(([a, b]) => predictXor(model, [a, b]));
   const loss = xorData.reduce((sum, [, , target], i) => sum + (predictions[i] - target) ** 2, 0) / 4;
+  const train = () => { const next = trainXor(model, 250); const nextPredictions = xorData.map(([a, b, target]) => predictXor(next, [a, b])); const nextLoss = xorData.reduce((sum, [, , target], i) => sum + (nextPredictions[i] - target) ** 2, 0) / 4; setModel(next); setEpoch((value) => value + 250); setLossHistory((history) => [...history, nextLoss].slice(-18)); };
   return (
     <div className="neural-demo" aria-label="Interactive XOR neural network demonstration">
       <div className="neural-demo-heading"><div><p className="eyebrow">INTERACTIVE STUDY</p><h3>Watch a tiny network learn XOR.</h3></div><span className="mono">{epoch} EPOCHS</span></div>
       <div className="neural-network-diagram" aria-hidden="true"><span className="neuron-col"><i /><i /></span><span className="network-lines">↗ ↘<br />↘ ↗</span><span className="neuron-col"><i /></span></div>
       <div className="xor-results">{xorData.map(([a, b, target], i) => <div key={`${a}${b}`}><span className="mono">{a} ⊕ {b}</span><strong>{predictions[i].toFixed(2)}</strong><small>target {target}</small></div>)}</div>
-      <div className="neural-demo-footer"><span>Mean squared error <strong>{loss.toFixed(3)}</strong></span><div><button className="button secondary" onClick={() => { setModel(trainXor(model, 250)); setEpoch((value) => value + 250); }}>Train 250</button><button className="button primary" onClick={() => { setModel(initialNeuralModel()); setEpoch(0); }}>Reset</button></div></div>
+      <div className="loss-chart" aria-label={`Loss history with ${lossHistory.length} training steps`}><svg viewBox="0 0 180 48" role="img"><polyline points={lossHistory.map((value, i) => `${i * (180 / Math.max(17, lossHistory.length - 1))},${44 - Math.min(40, value * 40)}`).join(" ")} /></svg><span className="mono">LOSS / TRAINING STEPS</span></div>
+      <div className="neural-demo-footer"><span>Mean squared error <strong>{loss.toFixed(3)}</strong></span><div><button className="button secondary" onClick={train}>Train 250</button><button className="button primary" onClick={() => { setModel(initialNeuralModel()); setEpoch(0); setLossHistory([]); }}>Reset</button></div></div>
     </div>
   );
 }
@@ -443,14 +446,17 @@ function AcademicRecord({
 }) {
   const [selected, setSelected] = useState("");
   const [displayCgpa, setDisplayCgpa] = useState(data.cgpa);
+  const [hasEntered, setHasEntered] = useState(false);
+  const summaryRef = React.useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (!data.cgpa || window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setDisplayCgpa(data.cgpa); return; }
+    if (!data.cgpa || window.matchMedia("(prefers-reduced-motion: reduce)").matches || !hasEntered) { setDisplayCgpa(hasEntered ? data.cgpa : 0); return; }
     let frame = 0;
     const start = performance.now();
     const tick = (now: number) => { const progress = Math.min((now - start) / 700, 1); setDisplayCgpa(data.cgpa * (1 - Math.pow(1 - progress, 3))); if (progress < 1) frame = requestAnimationFrame(tick); };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [data.cgpa]);
+  }, [data.cgpa, hasEntered]);
+  useEffect(() => { const node = summaryRef.current; if (!node || !("IntersectionObserver" in window)) { setHasEntered(true); return; } const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) { setHasEntered(true); observer.disconnect(); } }, { threshold: 0.3 }); observer.observe(node); return () => observer.disconnect(); }, []);
   const semester =
     data.semesters.find((s) => s.key === selected) ?? data.semesters[0];
   const columns = [
@@ -470,7 +476,7 @@ function AcademicRecord({
         title="Learning, on the record."
       />
       <div className="academics-grid">
-        <div className="academic-summary">
+        <div className="academic-summary" ref={summaryRef}>
           <p className="eyebrow">CURRENT CGPA</p>
           <div className="gpa">
             {displayCgpa.toFixed(2)}
@@ -535,7 +541,7 @@ function AcademicRecord({
               )}
               {semester.status === "in-progress" && <p className="academic-status" role="status">In progress · pending results stay separate from completed grades.</p>}
               {visible.length > 0 && (
-                <div className="table-wrap">
+              <div className="table-wrap semester-table" key={semester.key}>
                   <table>
                     <caption className="sr-only">
                       Published course results for{" "}

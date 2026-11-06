@@ -1153,6 +1153,15 @@ th {
 .case-media img {
   max-width: 100%;
 }
+.case-reveal .case-header, .case-reveal .case-media, .case-reveal .case-grid { animation: hero-rise 620ms var(--ease-standard) both; }
+.case-reveal .case-media { animation-delay: 120ms; }
+.case-reveal .case-grid { animation-delay: 180ms; }
+.semester-table { animation: table-settle 260ms var(--ease-standard) both; }
+.loss-chart { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+.loss-chart svg { display: block; width: 100%; height: 48px; overflow: visible; }
+.loss-chart polyline { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.loss-chart .mono { color: var(--muted); font-size: 9px; }
+@keyframes table-settle { from { opacity: .35; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 .case-study {
   padding-block: 34px 96px;
 }
